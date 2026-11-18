@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Олег Маврин — игра, где выигрывают оба</title>
+<meta name="description" content="Коммерческое предложение: сайт и маркетинг для медиатора Олега Маврина. Переговоры как игра: подготовка, стратегия, результат.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap">
+<style>
+/* Версия ПОСЛЕ. Подача как у спортивного клуба: игра, дисциплина, результат.
+   Система из стиля Кэмпа: нейтральные оттенки, двухтоновые заголовки Manrope 400/500,
+   таблетка + кружок со стрелкой, карточки «камень» 25px. Цвет живёт в картинках:
+   синий корт первого экрана, мяч цвета лайма и свой цвет у каждого уровня тренингов. */
+:root {
+  --paper: #ffffff;
+  --milk: #f7f6f3;
+  --stone: #f2f2f0;
+  --mist: #e5e5ea;
+  --grey: #6c6c6c;
+  --graphite: #1b1b1b;
+  --ink: #080808;
+  --ball: #D4F53C;          /* мяч: единственный яркий акцент */
+  --court: #1D4C9E;         /* синий корт */
+  --sky: #0E2D63;
+  --lv1: #1F6A3F;  --lv2: #2142B3;  --lv3: #7A1626;  --lv4: #111111;  --lv5: #D9853A;
+  --sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --gut: max(clamp(1rem, .3rem + 2.6vw, 3.5rem), env(safe-area-inset-left, 0px));
+  --gut-r: max(clamp(1rem, .3rem + 2.6vw, 3.5rem), env(safe-area-inset-right, 0px));
+  --sec: clamp(4.5rem, 2.5rem + 7vw, 10rem);
+  --r: clamp(18px, 1.6vw, 28px);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { font-size: clamp(100%, 88% + .33vw, 130%); scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.5; letter-spacing: -.02em; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, video, svg { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.wrap { max-width: 2400px; margin: 0 auto; padding-left: var(--gut); padding-right: var(--gut-r); }
+.g { color: var(--grey); font-weight: 400; }
+p { margin: 0; max-width: 60ch; }
+h1, h2, h3, h4 { margin: 0; font-weight: 500; text-wrap: balance; }
+h2 { font-size: clamp(2.3rem, 1.2rem + 4vw, 5.4rem); line-height: .95; letter-spacing: -.055em; font-weight: 500; }
+h2 .g { font-weight: 400; }
+h3 { font-size: clamp(1.25rem, 1rem + .8vw, 1.9rem); line-height: 1.08; letter-spacing: -.04em; }
+.small { font-size: .82rem; color: var(--grey); line-height: 1.4; }
+.sec { padding-block: var(--sec); }
+.dark { background: var(--ink); color: #fff; }
+.dark .g, .dark .small { color: #8a8a8a; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Элементы системы */
+.kicker { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1.1rem; border: 1px solid var(--mist); border-radius: 999px; font-size: .8rem; line-height: 1; }
+.dark .kicker, .final .kicker { border-color: #2c2c2c; }
+.pair { display: inline-flex; align-items: center; transition: transform .25s var(--ease); cursor: pointer; border: 0; background: none; padding: 0; }
+.pair span { display: grid; place-items: center; height: 2.75rem; border-radius: 999px; background: var(--ink); color: #fff; font-size: .85rem; font-weight: 500; }
+.pair .l { padding: 0 1.8rem; white-space: nowrap; }
+.pair .i { width: 3.4rem; }
+.pair .i svg { width: .8rem; height: .8rem; transition: transform .3s var(--ease); }
+.pair:hover { transform: translateY(-2px); }
+.pair:hover .i svg { transform: rotate(45deg); }
+.pair.lime span { background: var(--ball); color: var(--ink); }
+.dark .pair:not(.lime) span { background: #fff; color: var(--ink); }
+.card { background: var(--stone); border-radius: var(--r); padding: clamp(1.2rem, .9rem + 1vw, 2rem); }
+.sec-head { display: grid; gap: 1.4rem 3rem; align-items: end; margin-bottom: clamp(2.2rem, 1.4rem + 2.6vw, 4rem); }
+.sec-head p { color: var(--grey); font-size: .95rem; line-height: 1.45; max-width: 34ch; }
+.sec-head p b { color: var(--ink); font-weight: 500; }
+.dark .sec-head p b { color: #fff; }
+@media (min-width: 900px) { .sec-head { grid-template-columns: 1fr minmax(15rem, 22rem); } }
+.glass { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border-radius: 18px; color: #fff; }
+
+/* Появление: из размытия, со сдвигом (из стиля Кэмпа) */
+.js .rv { opacity: 0; transform: translateY(36px) scale(.985); filter: blur(10px); transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease); }
+.js .rv.in { opacity: 1; transform: none; filter: none; }
+.sec-head h2 .wd { display: inline-block; }
+.js .sec-head h2 .wd { opacity: 0; filter: blur(12px); transform: translateY(.35em); transition: opacity .8s var(--ease), filter .8s var(--ease), transform .9s var(--ease); transition-delay: calc(var(--i) * 55ms); }
+.js .sec-head.in h2 .wd { opacity: 1; filter: none; transform: none; }
+.tilt { transform-style: preserve-3d; transition: transform .6s var(--ease); }
+
+/* ---------- Верхняя полоса КП ---------- */
+.topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.5rem; padding-block: 1rem; }
+.brand { display: flex; align-items: center; gap: .7rem; font-size: .8rem; line-height: 1.15; }
+.brand .mk { width: 2.3rem; height: 2.3rem; border-radius: 50%; background: var(--ink); color: var(--ball); display: grid; place-items: center; font-weight: 600; font-size: .78rem; letter-spacing: -.04em; }
+.brand b { font-weight: 500; display: block; }
+.brand span { color: var(--grey); }
+.topnav { display: flex; gap: 1.4rem; font-size: .8rem; color: var(--grey); flex-wrap: wrap; }
+.topnav a:hover { color: var(--ink); }
+.top-r { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.before-link { font-size: .8rem; padding: .7rem 1.1rem; border-radius: 999px; background: var(--stone); transition: background .25s; }
+.before-link:hover { background: var(--mist); }
+@media (max-width: 980px) { .topnav { display: none; } }
+
+/* ---------- Первый экран: корт ---------- */
+.hero-wrap { padding-left: var(--gut); padding-right: var(--gut-r); max-width: 2400px; margin: 0 auto; }
+.hero { position: relative; overflow: hidden; border-radius: var(--r); color: #fff; min-height: clamp(36rem, 26rem + 26vw, 60rem); background: linear-gradient(180deg, #0A2250 0%, #133A80 46%, #1D4C9E 70%, #183F86 100%); isolation: isolate; --p: 0; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .09; mix-blend-mode: overlay; z-index: 5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.hero .clouds { position: absolute; inset: 0 0 40% 0; z-index: -1; background: radial-gradient(60% 40% at 20% 30%, rgba(255,255,255,.10), transparent 70%), radial-gradient(50% 30% at 80% 20%, rgba(255,255,255,.08), transparent 70%); }
+.court { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 52%; z-index: -1; }
+.hero-nav { position: relative; z-index: 3; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; padding: clamp(1rem, .8rem + .6vw, 1.6rem) clamp(1rem, .6rem + 1.4vw, 2.2rem); font-size: .78rem; }
+.hero-nav nav { display: flex; gap: 1.3rem; opacity: .85; }
+.hero-nav .logo { display: flex; align-items: center; gap: .5rem; font-weight: 500; letter-spacing: -.02em; }
+.hero-nav .logo i { display: grid; grid-template-columns: repeat(3, 4px); gap: 2px; }
+.hero-nav .logo i b { width: 4px; height: 4px; border-radius: 50%; background: var(--ball); }
+.hero-nav .tel { justify-self: end; opacity: .85; }
+.words { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 1rem; padding: clamp(2rem, 1rem + 4vw, 6rem) clamp(1rem, .6rem + 1.4vw, 2.2rem) 0; }
+.words div { display: grid; gap: .6rem; align-content: start; }
+.words div:nth-child(2) { justify-items: center; text-align: center; }
+.words div:nth-child(3) { justify-items: end; text-align: right; }
+.words h1, .words .w { font-size: clamp(2.4rem, .3rem + 4.7vw, 8rem); white-space: nowrap; line-height: .9; letter-spacing: -.065em; font-weight: 500; margin: 0; transform: translateY(calc(var(--p) * -30px)); }
+.words .w.lime { color: var(--ball); }
+.words small { font-size: .78rem; line-height: 1.3; opacity: .78; max-width: 18ch; }
+.photo-card { position: absolute; z-index: 3; left: 50%; top: 52%; margin: 0; width: clamp(13rem, 7rem + 15vw, 25rem); aspect-ratio: 440 / 560; border-radius: 22px; overflow: hidden; transform: translate(-50%, -38%) rotate(calc(-6deg + var(--p) * 6deg)) scale(calc(1 + var(--p) * .04)); box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); }
+.photo-card img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.9) contrast(1.05); }
+.photo-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(6,18,44,.75)); }
+.photo-card figcaption { position: absolute; left: 1rem; right: 1rem; bottom: .9rem; z-index: 2; display: flex; justify-content: space-between; align-items: end; gap: .6rem; font-size: .72rem; line-height: 1.2; }
+.photo-card figcaption b { font-size: .95rem; font-weight: 500; display: block; }
+.chip-club { position: absolute; z-index: 4; left: clamp(1rem, .6rem + 1.4vw, 2.2rem); bottom: clamp(1rem, .6rem + 1.4vw, 2.2rem); width: clamp(12rem, 9rem + 6vw, 17rem); padding: 1rem 1.1rem; display: grid; gap: .7rem; }
+.chip-club .t { display: flex; justify-content: space-between; align-items: start; font-size: .95rem; font-weight: 500; line-height: 1.1; }
+.chip-club .row { display: flex; justify-content: space-between; align-items: end; }
+.chip-club .big { font-size: 1.9rem; font-weight: 500; letter-spacing: -.05em; line-height: 1; color: var(--ball); }
+.dots { display: flex; gap: 3px; flex-wrap: wrap; max-width: 6.5rem; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.9); }
+.dots i.free { background: transparent; box-shadow: inset 0 0 0 1px var(--ball); }
+.sign-chip { position: absolute; z-index: 4; right: clamp(1rem, .6rem + 1.4vw, 2.2rem); top: 56%; width: clamp(11rem, 8rem + 6vw, 16rem); display: grid; gap: .3rem; font-size: .72rem; line-height: 1.3; }
+.sign-chip b { font-size: .8rem; font-weight: 500; }
+.sign-chip span { opacity: .75; }
+.sign-chip svg { width: 100%; height: auto; margin-top: .4rem; }
+.sign-chip path { fill: none; stroke: var(--ball); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hero-cta { position: absolute; z-index: 4; right: clamp(1rem, .6rem + 1.4vw, 2.2rem); bottom: clamp(1rem, .6rem + 1.4vw, 2.2rem); display: flex; align-items: center; gap: .8rem; color: var(--ball); font-weight: 600; font-size: clamp(.9rem, .8rem + .4vw, 1.3rem); letter-spacing: -.03em; text-transform: uppercase; border-bottom: 2px solid var(--ball); padding-bottom: .3rem; }
+.hero-cta svg { width: 1.1em; height: 1.1em; transition: transform .3s var(--ease); }
+.hero-cta:hover svg { transform: rotate(45deg); }
+.hero-label { position: absolute; z-index: 4; left: 50%; bottom: clamp(1rem, .6rem + 1.4vw, 2.2rem); transform: translateX(-50%); font-size: .7rem; padding: .35rem .8rem; white-space: nowrap; }
+.marquee { overflow: hidden; border-bottom: 1px solid var(--mist); padding-block: .9rem; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee div { display: flex; gap: 3rem; width: max-content; animation: mq 40s linear infinite; font-size: clamp(1rem, .8rem + .8vw, 1.6rem); letter-spacing: -.04em; color: #c9c9cc; text-transform: uppercase; font-weight: 500; }
+.marquee div span::after { content: "·"; margin-left: 3rem; color: var(--ball); }
+@keyframes mq { to { transform: translateX(-50%); } }
+@media (max-width: 860px) {
+  .hero { min-height: 0; padding-bottom: 6rem; }
+  .hero-nav nav, .hero-nav .tel { display: none; }
+  .hero-nav { grid-template-columns: 1fr; justify-items: center; }
+  .words { flex-direction: column; gap: 1rem; padding-top: 1.4rem; }
+  .words div, .words div:nth-child(2), .words div:nth-child(3) { justify-items: start; text-align: left; gap: .3rem; }
+  .words small { max-width: 30ch; }
+  .words .w { font-size: clamp(2.8rem, 1rem + 9vw, 4.6rem); }
+  .photo-card { position: relative; left: auto; top: auto; transform: rotate(-4deg); margin: 2rem auto 0; width: min(78%, 20rem); }
+  .sign-chip { position: relative; right: auto; top: auto; margin: 1.6rem auto 0; width: min(86%, 20rem); }
+  .chip-club { position: relative; left: auto; bottom: auto; margin: 1rem auto 0; width: min(86%, 20rem); }
+  .hero-cta { left: 50%; right: auto; transform: translateX(-50%); white-space: nowrap; }
+  .hero-label { display: none; }
+}
+
+/* ---------- Интро ---------- */
+.intro h2 { font-size: clamp(2.4rem, 1rem + 5vw, 6.6rem); }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; border-top: 1px solid var(--mist); padding-top: 1.4rem; margin: 0; }
+.facts dt { font-size: .75rem; color: var(--grey); margin-bottom: .45rem; }
+.facts dd { margin: 0; font-size: clamp(1.1rem, .9rem + .6vw, 1.6rem); font-weight: 500; letter-spacing: -.05em; }
+@media (max-width: 760px) { .facts { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- Мяч на вашей стороне ---------- */
+.ballzone { position: relative; overflow: hidden; border-radius: var(--r); background: radial-gradient(80% 70% at 50% 60%, #1c2410 0%, #0b0d07 60%, #050604 100%); color: #fff; min-height: clamp(32rem, 22rem + 24vw, 52rem); display: grid; place-items: center; text-align: center; isolation: isolate; }
+.balls { position: absolute; inset: 0; z-index: -1; }
+.ball { --k: 1; display: block; position: absolute; border-radius: 50%; overflow: hidden; width: calc(var(--s) * var(--k)); height: calc(var(--s) * var(--k)); left: var(--x); top: var(--y); filter: blur(var(--b, 0px)); transform: translate(-50%, -50%) translate(calc(var(--mx, 0) * var(--d, 0) * 1px), calc(var(--my, 0) * var(--d, 0) * 1px)); transition: transform .8s var(--ease);
+  background: radial-gradient(circle at 34% 30%, #f6ffb0 0%, #d4f53c 32%, #a8c923 64%, #5f7710 100%); box-shadow: inset -.6em -.8em 1.6em rgba(0,0,0,.35); }
+.ball::before, .ball::after { content: ""; position: absolute; top: -8%; bottom: -8%; width: 80%; border-radius: 50%; border: calc(var(--s) * var(--k) * .035) solid rgba(250,255,235,.92); }
+.ball::before { left: -58%; }
+.ball::after { right: -58%; }
+.ballzone .inner { display: grid; gap: 1.3rem; justify-items: center; padding: 3rem 1.2rem; max-width: 48rem; }
+.ballzone h2 { font-size: clamp(2.4rem, 1rem + 5vw, 6.2rem); text-transform: uppercase; letter-spacing: -.06em; line-height: .9; }
+.ballzone p { color: rgba(255,255,255,.75); font-size: 1rem; max-width: 44ch; }
+.ballzone .ico { display: grid; grid-template-columns: repeat(5, 6px); gap: 4px; }
+.ballzone .ico b { width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.ballzone .ico b:nth-child(1), .ballzone .ico b:nth-child(5), .ballzone .ico b:nth-child(21), .ballzone .ico b:nth-child(25) { opacity: 0; }
+.wisdom { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--mist); border: 1px solid var(--mist); border-radius: var(--r); overflow: hidden; margin-top: clamp(1rem, 2vw, 1.6rem); }
+.wisdom div { background: var(--paper); padding: clamp(1.1rem, .8rem + 1vw, 1.8rem); display: grid; gap: .8rem; align-content: start; }
+.wisdom b { font-size: clamp(1.1rem, .95rem + .5vw, 1.45rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.12; }
+.wisdom span { font-size: .85rem; color: var(--grey); line-height: 1.4; }
+.wisdom i { font-style: normal; font-size: .72rem; color: var(--grey); }
+@media (max-width: 980px) { .wisdom { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .wisdom { grid-template-columns: 1fr; } }
+
+/* ---------- Шторка до/после ---------- */
+.diff { position: relative; border-radius: var(--r); overflow: hidden; aspect-ratio: 2000 / 1295; background: var(--ink); cursor: ew-resize; touch-action: pan-y; user-select: none; --x: 50%; }
+.diff img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; pointer-events: none; }
+.diff .after { clip-path: inset(0 0 0 var(--x)); }
+.diff .knob { position: absolute; top: 0; bottom: 0; left: var(--x); width: 0; }
+.diff .knob::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: #fff; }
+.diff .knob span { position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 3rem; height: 3rem; border-radius: 50%; background: var(--ball); color: var(--ink); display: grid; place-items: center; font-size: .9rem; letter-spacing: -2px; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+.diff .tag { position: absolute; top: 1rem; z-index: 2; font-size: .75rem; padding: .4rem .8rem; border-radius: 999px; }
+.diff .tag.l { left: 1rem; background: rgba(255,255,255,.92); color: var(--ink); }
+.diff .tag.r { right: 1rem; background: var(--ink); color: #fff; }
+.diff-row { display: grid; gap: clamp(1rem, 2vw, 1.6rem); }
+@media (min-width: 1100px) { .diff-row { grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); align-items: stretch; } }
+.pains { display: grid; gap: .6rem; align-content: start; }
+.pains .card { display: grid; gap: .4rem; padding: 1.1rem 1.3rem; }
+.pains b { font-weight: 500; font-size: 1.02rem; letter-spacing: -.03em; }
+.pains span { font-size: .85rem; color: var(--grey); }
+
+/* ---------- Уровни (тренинги) ---------- */
+.picker { display: grid; gap: 1rem; margin-bottom: clamp(1.4rem, 2vw, 2rem); }
+@media (min-width: 1000px) { .picker { grid-template-columns: auto 1fr auto; align-items: center; } }
+.picker .q { font-size: .85rem; color: var(--grey); }
+.pills { display: flex; flex-wrap: wrap; gap: .45rem; }
+.pill { cursor: pointer; border: 0; min-height: 2.6rem; padding: .55rem 1.05rem; border-radius: 999px; background: var(--stone); font-size: .88rem; transition: background .2s, color .2s; }
+.pill:hover { background: var(--mist); }
+.pill[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.pick-res { font-size: .9rem; min-height: 1.4em; }
+.pick-res b { font-weight: 500; }
+.levels { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(16.5rem, 1fr); gap: clamp(.7rem, 1vw, 1rem); overflow-x: auto; scroll-snap-type: x mandatory; padding: .6rem 0; scrollbar-width: thin; }
+@media (min-width: 1500px) { .levels { grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible; } }
+.lvl { scroll-snap-align: start; display: grid; grid-template-rows: auto 1fr; border-radius: var(--r); overflow: hidden; background: var(--stone); transition: opacity .4s, transform .4s var(--ease), box-shadow .4s; }
+.levels.picked .lvl { opacity: .35; }
+.levels.picked .lvl.hit { opacity: 1; box-shadow: 0 30px 50px -30px rgba(0,0,0,.4); }
+.lvl .pic { position: relative; aspect-ratio: 4 / 4.2; background: var(--c); display: grid; place-items: center; color: #fff; overflow: hidden; isolation: isolate; }
+.lvl .pic::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 60% at 50% 40%, rgba(255,255,255,.22), transparent 70%); }
+.lvl .badge { position: absolute; left: .9rem; top: .9rem; font-size: .72rem; padding: .35rem .75rem; }
+.lvl .meter { position: absolute; right: .9rem; top: 1.05rem; display: flex; gap: 3px; }
+.lvl .meter i { width: 5px; height: 14px; border-radius: 2px; background: rgba(255,255,255,.3); }
+.lvl .meter i.on { background: #fff; }
+.lvl .pic .name { position: absolute; left: .9rem; right: .9rem; bottom: .9rem; font-size: clamp(1.5rem, 1.1rem + 1vw, 2.2rem); font-weight: 500; letter-spacing: -.055em; line-height: .95; }
+.lvl .obj { width: 46%; transform: translateY(-8%); filter: drop-shadow(0 24px 24px rgba(0,0,0,.35)); transition: transform .6s var(--ease); }
+.lvl:hover .obj { transform: translateY(-14%) rotate(-6deg); }
+.lvl .body { padding: 1.1rem 1.1rem 1.3rem; display: grid; gap: .8rem; align-content: start; }
+.lvl .real { font-size: .82rem; color: var(--grey); }
+.lvl .meta { display: flex; flex-wrap: wrap; gap: .35rem; }
+.lvl .meta span { font-size: .75rem; padding: .3rem .65rem; border-radius: 999px; background: var(--paper); }
+.lvl .after { font-size: .9rem; line-height: 1.4; }
+.lvl .after b { font-weight: 500; display: block; font-size: .72rem; color: var(--grey); margin-bottom: .2rem; }
+.knight { font-size: 9rem; line-height: 1; font-family: "Georgia", serif; color: #fff; font-variant-emoji: text; }
+.ball-obj { position: relative; display: block; width: auto !important; }
+.ball-obj .ball { position: relative; left: auto; top: auto; transform: none; }
+
+/* ---------- Услуги: список + сцена (по референсу) ---------- */
+.svc { display: grid; gap: clamp(1rem, 3vw, 3rem); align-items: stretch; }
+@media (min-width: 980px) { .svc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); } }
+.svc-list { display: grid; align-content: start; border-top: 1px solid #222; }
+.svc-item { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 2.2rem 1fr auto; gap: .8rem; align-items: baseline; padding: 1.15rem 0 1.15rem .9rem; border-bottom: 1px solid #222; position: relative; transition: color .3s, padding .4s var(--ease); color: #6f6f6f; }
+.svc-item::before { content: ""; position: absolute; left: 0; top: 22%; bottom: 22%; width: 2px; background: var(--ball); transform: scaleY(0); transition: transform .4s var(--ease); }
+.svc-item small { font-size: .72rem; }
+.svc-item b { font-size: clamp(1.2rem, .95rem + .9vw, 1.9rem); font-weight: 500; letter-spacing: -.045em; line-height: 1.05; }
+.svc-item em { font-style: normal; font-size: .78rem; }
+.svc-item[aria-selected="true"] { color: #fff; padding-left: 1.4rem; }
+.svc-item[aria-selected="true"]::before { transform: scaleY(1); }
+.svc-item:focus-visible { outline: 2px solid var(--ball); outline-offset: 2px; }
+.stage { position: relative; border-radius: var(--r); overflow: hidden; background: #10141c; min-height: 24rem; display: grid; }
+.stage svg.board { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stage .board .line { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 2; }
+.stage .board .mv { fill: none; stroke: var(--ball); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 8 10; }
+.stage .board .x { stroke: #fff; stroke-width: 4; stroke-linecap: round; }
+.stage .board .o { fill: none; stroke: var(--ball); stroke-width: 4; }
+.stage .board #bA { transition: opacity .3s var(--ease); }
+.stage .cap { position: relative; z-index: 2; align-self: end; margin: 1rem; padding: 1.1rem 1.2rem; display: grid; gap: .5rem; max-width: 30rem; }
+.stage .cap .t { font-size: .72rem; opacity: .8; }
+.stage .cap b { font-size: clamp(1.3rem, 1rem + 1vw, 2rem); font-weight: 500; letter-spacing: -.05em; line-height: 1.05; }
+.stage .cap p { font-size: .9rem; opacity: .85; }
+
+/* ---------- Тренер (как Train like a pro) ---------- */
+.coach { position: relative; display: grid; border-radius: var(--r); overflow: hidden; background: linear-gradient(120deg, #0A2250, #1D4C9E); color: #fff; min-height: 26rem; isolation: isolate; }
+@media (min-width: 900px) { .coach { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.coach .ph { position: relative; min-height: 22rem; }
+.coach .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 20%; }
+.coach .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 50%, rgba(13,40,92,.95)); }
+@media (max-width: 899px) { .coach .ph::after { background: linear-gradient(180deg, transparent 50%, rgba(13,40,92,.95)); } }
+.coach .ph .nm { position: absolute; left: 1.2rem; bottom: 1rem; z-index: 2; font-size: clamp(2rem, 1.2rem + 3vw, 4.4rem); font-weight: 500; letter-spacing: -.06em; line-height: .9; }
+.coach .side { padding: clamp(1.4rem, 1rem + 2vw, 3rem); display: grid; gap: 1.4rem; align-content: space-between; }
+.coach .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1.5rem; }
+.coach .stats div { display: grid; gap: .25rem; }
+.coach .stats b { font-size: clamp(2rem, 1.3rem + 2.4vw, 4rem); font-weight: 500; letter-spacing: -.06em; line-height: .95; color: var(--ball); }
+.coach .stats span { font-size: .8rem; opacity: .8; line-height: 1.3; }
+.coach .badges { display: flex; flex-wrap: wrap; gap: .4rem; }
+.coach .badges span { font-size: .75rem; padding: .4rem .8rem; }
+.logos { overflow: hidden; margin-top: 1rem; -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.logos div { display: flex; gap: .6rem; width: max-content; animation: mq 30s linear infinite; }
+.logos span { padding: .9rem 1.4rem; border-radius: 14px; background: var(--stone); font-weight: 600; letter-spacing: -.03em; white-space: nowrap; font-size: .95rem; }
+
+/* ---------- Протоколы матчей (кейсы) ---------- */
+.matches { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(19rem, 1fr); gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .6rem; }
+@media (min-width: 1200px) { .matches { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; } }
+.match { scroll-snap-align: start; border-radius: var(--r); background: var(--ink); color: #fff; padding: 1.3rem; display: grid; gap: 1.2rem; align-content: start; }
+.match .hd { display: flex; justify-content: space-between; font-size: .75rem; color: #8a8a8a; }
+.match .hd b { color: #fff; font-weight: 500; }
+.match .teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .6rem; }
+.match .team { display: grid; gap: .4rem; justify-items: start; }
+.match .team:last-child { justify-items: end; }
+.who { display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .7rem .3rem .3rem; border-radius: 999px; background: #1b1b1b; font-size: .75rem; white-space: nowrap; }
+.who i { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: .62rem; font-weight: 600; color: var(--ink); background: var(--c, #fff); }
+.match .score { font-size: clamp(2.6rem, 2rem + 2vw, 3.8rem); font-weight: 500; letter-spacing: -.06em; line-height: 1; white-space: nowrap; }
+.match .score em { font-style: normal; color: var(--ball); padding: 0 .1em; }
+.match .med { justify-self: center; }
+.match .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: #222; border-radius: 14px; overflow: hidden; }
+.match .stats div { background: #121212; padding: .7rem .6rem; display: grid; gap: .15rem; }
+.match .stats b { font-size: 1.1rem; font-weight: 500; letter-spacing: -.04em; }
+.match .stats span { font-size: .66rem; color: #8a8a8a; line-height: 1.2; }
+.match .story { font-size: .88rem; color: #bdbdbd; line-height: 1.45; }
+
+/* ---------- Клуб: афиша было/станет ---------- */
+.club { display: grid; gap: 1rem; }
+@media (min-width: 900px) { .club { grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); } }
+.club figure { margin: 0; display: grid; gap: .6rem; align-content: start; }
+.club figure img { border-radius: var(--r); width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; }
+.club figcaption { font-size: .8rem; color: var(--grey); }
+.poster { position: relative; border-radius: var(--r); overflow: hidden; min-height: 32rem; background: linear-gradient(180deg, #0A2250, #1D4C9E 60%, #163E85); color: #fff; padding: clamp(1.2rem, 1rem + 1.4vw, 2.4rem); display: grid; grid-template-rows: auto 1fr auto; gap: 1rem; isolation: isolate; }
+.poster .court { height: 46%; opacity: .9; }
+.poster .top { display: flex; justify-content: space-between; align-items: start; font-size: .78rem; gap: 1rem; }
+.poster .date { font-size: clamp(3.6rem, 2rem + 6vw, 8.5rem); font-weight: 500; letter-spacing: -.07em; line-height: .85; color: var(--ball); }
+.poster h3 { font-size: clamp(1.8rem, 1rem + 2.6vw, 3.8rem); letter-spacing: -.06em; line-height: .92; text-transform: uppercase; max-width: 14ch; }
+.poster .bot { display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; }
+.poster .seat { padding: .8rem 1rem; display: grid; gap: .5rem; font-size: .75rem; }
+.poster .p-ball { position: absolute; right: -3rem; top: 30%; z-index: -1; }
+
+/* ---------- Лента референсов (3D-цилиндр) ---------- */
+.ribbon { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); perspective: 1300px; perspective-origin: 50% 50%; padding-block: 24px; cursor: grab; touch-action: pan-y; user-select: none; }
+.ribbon.drag { cursor: grabbing; }
+.ribbon-track { display: flex; gap: 12px; width: max-content; transform-style: preserve-3d; will-change: transform; }
+.ribbon img { height: clamp(170px, 18vw, 300px); width: auto; border-radius: 8px; backface-visibility: hidden; will-change: transform; -webkit-user-drag: none; }
+.refs { display: grid; grid-template-columns: 1fr; gap: .6rem; margin-top: 1.4rem; }
+@media (min-width: 640px) { .refs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .refs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ref { display: grid; grid-template-columns: 1fr auto; gap: .2rem 1rem; padding: 1rem 1.1rem; border-radius: 16px; background: var(--graphite); transition: background .25s; }
+.ref:hover { background: #262626; }
+.ref b { font-weight: 500; }
+.ref span { grid-column: 1 / -1; font-size: .8rem; color: #8a8a8a; line-height: 1.35; }
+.ref svg { width: .8rem; height: .8rem; color: var(--ball); align-self: center; }
+
+/* ---------- Структура (программа) ---------- */
+.prog { display: grid; }
+.prog-row { border-top: 1px solid var(--mist); }
+.prog-row:first-child { border-top: 0; }
+.prog-row button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 2.6rem 1fr 2.4rem; gap: 1rem; align-items: center; padding: 1.05rem 0; }
+.prog-row .n { justify-self: start; font-size: .72rem; padding: .25rem .5rem; border: 1px solid #d9d9de; border-radius: 999px; }
+.prog-row .t { font-size: clamp(1.05rem, .9rem + .5vw, 1.45rem); font-weight: 500; letter-spacing: -.035em; }
+.prog-row .t i { font-style: normal; color: var(--grey); font-weight: 400; }
+.prog-row .pl { width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 1px solid #d9d9de; display: grid; place-items: center; transition: background .25s, transform .35s var(--ease), color .25s; }
+.prog-row[aria-expanded="true"] .pl { background: var(--ink); color: #fff; transform: rotate(45deg); }
+.prog-row button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.prog-row .bd { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease); }
+.prog-row[aria-expanded="true"] .bd { grid-template-rows: 1fr; }
+.prog-row .bd > div { overflow: hidden; }
+.prog-row .bd p { padding: 0 0 1.2rem 3.6rem; color: var(--grey); font-size: .92rem; }
+.prog-row .bd a { color: var(--ink); border-bottom: 1px solid var(--ink); }
+@media (max-width: 560px) { .prog-row .bd p { padding-left: 0; } }
+
+/* ---------- Маркетинг ---------- */
+.fans { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .6rem; align-items: end; }
+.fan { border-radius: var(--r); padding: 1.1rem; display: grid; gap: .5rem; align-content: end; min-height: var(--h); background: var(--stone); transition: transform .4s var(--ease); }
+.fan:hover { transform: translateY(-4px); }
+.fan:last-child { background: var(--ink); color: #fff; }
+.fan:last-child small, .fan:last-child .st { color: #8a8a8a; }
+.fan .st { font-size: .7rem; color: var(--grey); }
+.fan b { font-size: clamp(1.2rem, 1rem + .7vw, 1.8rem); font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+.fan small { font-size: .8rem; color: var(--grey); line-height: 1.35; }
+.fan:last-child b { color: var(--ball); }
+@media (max-width: 900px) { .fans { grid-template-columns: 1fr; } .fan { min-height: 0; } }
+.season { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.season .card { display: grid; gap: .9rem; align-content: start; }
+.season .card .tour { display: flex; justify-content: space-between; align-items: baseline; }
+.season .card .tour b { font-size: 2.6rem; font-weight: 500; letter-spacing: -.06em; line-height: 1; }
+.season ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+.season li { font-size: .9rem; padding-top: .45rem; border-top: 1px solid rgba(128,128,128,.2); }
+.season .card.on { background: var(--ink); color: #fff; }
+.season .card.on .tour b { color: var(--ball); }
+@media (max-width: 900px) { .season { grid-template-columns: 1fr; } }
+.rubrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin-top: 1rem; }
+.rubrics div { border: 1px solid var(--mist); border-radius: 18px; padding: 1rem 1.1rem; display: grid; gap: .5rem; align-content: start; }
+.rubrics small { font-size: .7rem; color: var(--grey); }
+.rubrics b { font-weight: 500; letter-spacing: -.03em; }
+.rubrics span { font-size: .88rem; color: var(--grey); line-height: 1.35; }
+@media (max-width: 900px) { .rubrics { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .rubrics { grid-template-columns: 1fr; } }
+
+/* ---------- Цены ---------- */
+.prices { background: var(--stone); border-radius: var(--r); padding: clamp(1rem, .8rem + 1vw, 1.8rem); display: grid; gap: 1rem; }
+.seg { display: inline-flex; padding: 4px; background: var(--paper); border-radius: 999px; justify-self: start; }
+.seg button { border: 0; background: none; cursor: pointer; padding: .55rem 1.1rem; border-radius: 999px; font-size: .82rem; color: var(--grey); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.plans { display: grid; grid-template-columns: 1fr; gap: .8rem; }
+@media (min-width: 960px) { .plans { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.plan { background: var(--paper); border-radius: 20px; padding: 1.4rem; display: flex; flex-direction: column; gap: 1.1rem; transition: transform .4s var(--ease); }
+.plan:hover { transform: translateY(-4px); }
+.plan.dark { background: var(--ink); color: #fff; }
+.plan .t { display: flex; gap: .6rem; font-size: .82rem; align-items: center; }
+.plan .t span { color: var(--grey); }
+.plan.dark .t span:not(.rec) { color: #9a9a9a; }
+.plan .t .rec { margin-left: auto; font-size: .68rem; padding: .25rem .6rem; border-radius: 999px; background: var(--ball); color: var(--ink); }
+.plan .pr { display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem; }
+.plan .pr s { font-size: .82rem; color: var(--grey); }
+.plan .pr b { font-size: clamp(1.9rem, 1.3rem + 1.6vw, 2.8rem); font-weight: 500; letter-spacing: -.055em; line-height: 1; font-variant-numeric: tabular-nums; }
+.plan .pr small { font-size: .8rem; color: var(--grey); }
+.plan ul { list-style: none; margin: 0; padding: 0; font-size: .85rem; }
+.plan li { display: flex; justify-content: space-between; gap: .8rem; padding: .55rem 0; border-top: 1px solid rgba(128,128,128,.18); }
+.plan li span { color: var(--grey); white-space: nowrap; }
+.plan .ft { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: .82rem; }
+.plan .ft span { color: var(--grey); }
+.rate { display: flex; flex-wrap: wrap; gap: .4rem; font-size: .78rem; color: var(--grey); align-items: center; }
+.rate span { padding: .35rem .7rem; border-radius: 999px; background: var(--paper); color: var(--ink); }
+.incl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; margin-top: 1rem; }
+.incl ul { margin: .8rem 0 0; padding: 0; list-style: none; display: grid; gap: .45rem; font-size: .92rem; }
+.incl li { padding-left: 1.2rem; position: relative; }
+.incl li::before { content: ""; position: absolute; left: 0; top: .55em; width: .5rem; height: .5rem; border-radius: 50%; background: var(--ball); box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+
+/* ---------- Финал ---------- */
+.final { position: relative; overflow: hidden; border-radius: var(--r); background: var(--ink); color: #fff; padding: clamp(2rem, 1rem + 4vw, 5rem); display: grid; gap: 1.6rem; isolation: isolate; min-height: 30rem; align-content: end; }
+.final h2 { font-size: clamp(2.6rem, 1rem + 6vw, 7.5rem); text-transform: uppercase; letter-spacing: -.065em; line-height: .88; max-width: 12ch; }
+.final h2 em { font-style: normal; color: var(--ball); }
+.final .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; border-top: 1px solid #2a2a2a; padding-top: 1.2rem; max-width: 60rem; }
+.final .steps div { display: grid; gap: .3rem; }
+.final .steps b { font-weight: 500; }
+.final .steps span { font-size: .85rem; color: #8a8a8a; }
+.final .f-ball { position: absolute; right: -6%; top: -10%; z-index: -1; }
+.final .kicker { justify-self: start; }
+@media (max-width: 700px) { .final .steps { grid-template-columns: 1fr; } }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .6rem 2rem; padding-block: 1.6rem calc(1.6rem + env(safe-area-inset-bottom, 0px)); font-size: .8rem; color: var(--grey); }
+footer a { border-bottom: 1px solid var(--mist); }
+
+@media (max-width: 700px) { .ballzone .ball, .poster .ball, .final .ball { --k: .5; } .poster .p-ball { top: 34%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<!-- Иконка стрелки для кнопок -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ar" viewBox="0 0 12 12"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+
+<!-- ============ ШАПКА КП ============ -->
+<div class="wrap topbar">
+  <div class="brand"><span class="mk">ОМ</span><div><b>Олег Маврин × Элианора</b><span>Коммерческое предложение · 19.11.2026</span></div></div>
+  <nav class="topnav" aria-label="Разделы КП"><a href="#idea">Идея</a><a href="#levels">Тренинги</a><a href="#services">Услуги</a><a href="#cases">Кейсы</a><a href="#marketing">Маркетинг</a><a href="#price">Цена</a></nav>
+  <div class="top-r">
+    <a class="before-link" href="index-v1-do.html">Версия 1 · ДО</a>
+    <a class="pair" href="#price"><span class="l">Смотреть цены</span><span class="i"><svg><use href="#ar"/></svg></span></a>
+  </div>
+</div>
+
+<!-- ============ ПЕРВЫЙ ЭКРАН: КОРТ ============ -->
+<div class="hero-wrap">
+  <header class="hero" id="top">
+    <div class="clouds" aria-hidden="true"></div>
+    <svg class="court" viewBox="0 0 1600 520" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B4A9C"/><stop offset="1" stop-color="#0F3577"/></linearGradient></defs>
+      <polygon points="300,40 1300,40 1600,520 0,520" fill="url(#cg)"/>
+      <g fill="none" stroke="rgba(255,255,255,.85)" stroke-width="3">
+        <polygon points="330,52 1270,52 1560,512 40,512"/>
+        <line x1="440" y1="52" x2="250" y2="512"/><line x1="1160" y1="52" x2="1350" y2="512"/>
+        <line x1="800" y1="52" x2="800" y2="512"/>
+        <line x1="392" y1="150" x2="1208" y2="150"/>
+        <line x1="190" y1="380" x2="1410" y2="380"/>
+      </g>
+      <rect x="230" y="200" width="1140" height="32" fill="rgba(5,15,35,.35)"/>
+      <g stroke="rgba(255,255,255,.22)" stroke-width="1">
+        <line x1="230" y1="208" x2="1370" y2="208"/><line x1="230" y1="216" x2="1370" y2="216"/><line x1="230" y1="224" x2="1370" y2="224"/>
+      </g>
+      <line x1="230" y1="200" x2="1370" y2="200" stroke="#fff" stroke-width="4"/>
+    </svg>
+
+    <div class="hero-nav">
+      <nav aria-label="Пример меню сайта"><span>Медиация</span><span>Переговоры</span><span>Тренинги</span><span>Клуб</span></nav>
+      <div class="logo"><i aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i>Клуб переговоров О. Маврина</div>
+      <span class="tel">8 800 101 25 98</span>
+    </div>
+
+    <div class="words">
+      <div><span class="w">Подготовка.</span><small>Переговоры выигрывают до того, как сели за стол</small></div>
+      <div><h1 class="w lime">Стратегия.</h1><small>Ход, который нужен обеим сторонам</small></div>
+      <div><span class="w">Результат.</span><small>Соглашение без суда и потерь</small></div>
+    </div>
+
+    <figure class="photo-card">
+      <img src="assets/oleg-portrait.jpg" width="440" height="560" alt="Олег Маврин">
+      <figcaption><span><b>Олег Маврин</b>медиатор · к.с.н.</span><span>с 2011</span></figcaption>
+    </figure>
+
+    <div class="sign-chip">
+      <b>Олег Маврин</b>
+      <span>Медиатор Арбитражного суда РТ. Доцент по конфликтологии. 15+ лет за столом переговоров</span>
+      <svg viewBox="0 0 240 70" aria-hidden="true"><path id="sig" d="M8 50c10-22 22-38 30-36 7 2-4 30-12 40-5 6-7 2-3-5 7-13 20-23 26-21 5 2-2 18 3 19 5 1 10-11 15-11 4 0-1 11 3 11 5 0 9-9 14-9s1 10 5 10c6 0 11-14 17-14 5 0 1 11 6 11 5 0 8-7 13-7 4 0 1 7 5 7 6 0 12-10 18-10 4 0 2 6 7 6 7 0 17-5 28-8 14-4 28-5 42-3"/></svg>
+    </div>
+
+    <div class="glass chip-club">
+      <div class="t"><span>Клуб переговоров<br>завтрак с экспертом</span></div>
+      <div class="row"><span class="big">06.12</span><span class="dots" aria-label="Осталось 4 места из 12"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i><i class="free"></i><i class="free"></i><i class="free"></i></span></div>
+    </div>
+
+    <span class="glass hero-label">Концепт первого экрана сайта</span>
+    <a class="hero-cta" href="#price">Разобрать мою ситуацию <svg><use href="#ar"/></svg></a>
+  </header>
+</div>
+<div class="marquee" aria-hidden="true"><div>
+  <span>Клуб переговоров Олега Маврина</span><span>Медиация бизнес-споров</span><span>Подготовка к переговорам</span><span>Корпоративные тренинги</span>
+  <span>Клуб переговоров Олега Маврина</span><span>Медиация бизнес-споров</span><span>Подготовка к переговорам</span><span>Корпоративные тренинги</span>
+</div></div>
+
+<!-- ============ ИДЕЯ ============ -->
+<section class="sec intro" id="idea">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Переговоры — игра, <span class="g">в которой выигрывают оба</span></h2>
+      <p>Сейчас сайт Олега выглядит как анкета. Мы упаковываем его как <b>клуб для сильных игроков</b>: спорт, дисциплина, результат. И тонкие послания для тех, кто понимает.</p>
+    </div>
+    <dl class="facts rv">
+      <div><dt>Позиция</dt><dd>Тренер по переговорам</dd></div>
+      <div><dt>Метафора</dt><dd>Игра, где побеждают оба</dd></div>
+      <div><dt>Сайт</dt><dd>12 блоков, 6 живых идей</dd></div>
+      <div><dt>Маркетинг</dt><dd>Сезон 90 дней</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ МЯЧ НА ВАШЕЙ СТОРОНЕ ============ -->
+<section class="wrap">
+  <div class="ballzone" id="ballzone">
+    <div class="balls" aria-hidden="true">
+      <span class="ball" style="--s:22rem;--x:12%;--y:30%;--b:14px;--d:-30"></span>
+      <span class="ball" style="--s:14rem;--x:30%;--y:78%;--b:6px;--d:-18"></span>
+      <span class="ball" style="--s:9rem;--x:72%;--y:22%;--b:3px;--d:12"></span>
+      <span class="ball" style="--s:26rem;--x:92%;--y:70%;--b:18px;--d:-36"></span>
+      <span class="ball" style="--s:6rem;--x:58%;--y:86%;--b:0px;--d:22"></span>
+      <span class="ball" style="--s:12rem;--x:46%;--y:10%;--b:10px;--d:-14"></span>
+    </div>
+    <div class="inner">
+      <span class="ico" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></span>
+      <h2>Мяч на вашей стороне</h2>
+      <p>Главная мысль сайта для мудрых. Каждое предложение в переговорах — это подача. Олег учит принимать её спокойно и отвечать так, чтобы выиграли обе стороны.</p>
+      <a class="pair lime" href="#levels"><span class="l">Выбрать свой уровень</span><span class="i"><svg><use href="#ar"/></svg></span></a>
+    </div>
+  </div>
+  <div class="wisdom rv">
+    <div><i>Послание 01</i><b>Ничья — тоже победа</b><span>В медиации нет проигравших. Обе стороны уходят с тем, что для них важно.</span></div>
+    <div><i>Послание 02</i><b>Сильный ход — иногда пауза</b><span>Кто умеет молчать за столом, тот слышит больше.</span></div>
+    <div><i>Послание 03</i><b>Судья не выносит приговор</b><span>Медиатор следит за правилами. Решение остаётся за сторонами.</span></div>
+    <div><i>Послание 04</i><b>Подача решает половину партии</b><span>Подготовка важнее импровизации. Поэтому начинаем с разбора.</span></div>
+  </div>
+</section>
+
+<!-- ============ ДО / ПОСЛЕ ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Чувствуете разницу? <span class="g">Потяните шторку</span></h2>
+      <p>Слева сайт сейчас: аккордеоны и списки. Справа — концепт первого экрана, который вы видели вверху.</p>
+    </div>
+    <div class="diff-row">
+      <div class="diff rv" id="diff" role="slider" aria-label="Сравнение: сайт сейчас и концепт" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+        <img src="assets/site-now-accordion.webp" width="2000" height="1295" alt="Сайт olegmavrin.ru сейчас" loading="lazy">
+        <img class="after" src="assets/after-hero.jpg" width="2000" height="1295" alt="Концепт первого экрана" loading="lazy">
+        <span class="tag l">Сейчас</span><span class="tag r">После</span>
+        <span class="knob"><span>‹ ›</span></span>
+      </div>
+      <div class="pains">
+        <div class="card"><b>Сайт про стаж, а не про клиента</b><span>«Более 15 лет занимаюсь переговорами» вместо ответа «решу вашу ситуацию».</span></div>
+        <div class="card"><b>Смыслы спрятаны в плюсиках</b><span>Ценности, услуги, принципы — в аккордеонах. Их никто не открывает.</span></div>
+        <div class="card"><b>Стресс уже на выборе</b><span>«Основы», «Эффективные», «Сложные» — человек не понимает разницы и уходит.</span></div>
+        <div class="card"><b>Нет доказательств</b><span>L'Oréal и Газпромнефть без логотипов, отзывов нет, кейсов нет.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ УРОВНИ ТРЕНИНГОВ ============ -->
+<section class="sec" id="levels" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Пять тренингов — <span class="g">пять уровней игры</span></h2>
+      <p>Сейчас программы различаются только числом дней. Даём каждой <b>своё имя, цвет и предмет</b>, как в игре: видно, с чего начать и куда расти. А подбор в один клик снимает стресс выбора.</p>
+    </div>
+    <div class="picker rv">
+      <span class="q">Подберите уровень · ваш опыт:</span>
+      <div class="pills" role="group" aria-label="Ваш опыт переговоров">
+        <button class="pill" type="button" data-l="1" aria-pressed="false">Только начинаю</button>
+        <button class="pill" type="button" data-l="2" aria-pressed="false">Веду, хочу системно</button>
+        <button class="pill" type="button" data-l="3" aria-pressed="false">Давят, сложные случаи</button>
+        <button class="pill" type="button" data-l="4" aria-pressed="false">Хочу стать медиатором</button>
+        <button class="pill" type="button" data-l="5" aria-pressed="false">Нужно быстро и онлайн</button>
+      </div>
+      <span class="pick-res" id="pickRes" aria-live="polite">Выберите — подсветим нужный уровень</span>
+    </div>
+    <div class="levels" id="levelsGrid">
+      <article class="lvl" data-l="1" style="--c:var(--lv1)">
+        <div class="pic"><span class="glass badge">Уровень 1</span><span class="meter" aria-label="Сложность 1 из 4"><i class="on"></i><i></i><i></i><i></i></span>
+          <span class="obj ball-obj" aria-hidden="true"><span class="ball" style="--s:7.5rem"></span></span>
+          <span class="name">Первая подача</span></div>
+        <div class="body"><span class="real">«Основы успешных переговоров»</span><div class="meta"><span>1 день</span><span>очно</span><span>базовый</span></div><p class="after"><b>После тренинга</b>Знаете, как подготовиться и не уступить лишнего в первом же разговоре.</p></div>
+      </article>
+      <article class="lvl" data-l="2" style="--c:var(--lv2)">
+        <div class="pic"><span class="glass badge">Уровень 2</span><span class="meter" aria-label="Сложность 2 из 4"><i class="on"></i><i class="on"></i><i></i><i></i></span>
+          <span class="obj knight" aria-hidden="true" style="width:auto">&#9822;&#xFE0E;</span>
+          <span class="name">Ход конём</span></div>
+        <div class="body"><span class="real">«Эффективные переговоры»</span><div class="meta"><span>3 дня</span><span>очно</span><span>продвинутый</span></div><p class="after"><b>После тренинга</b>Видите интересы за позициями и находите ход, который устроит обе стороны.</p></div>
+      </article>
+      <article class="lvl" data-l="3" style="--c:var(--lv3)">
+        <div class="pic"><span class="glass badge">Уровень 3</span><span class="meter" aria-label="Сложность 3 из 4"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+          <svg class="obj" viewBox="0 0 200 170" aria-hidden="true"><rect x="12" y="40" width="176" height="118" rx="14" fill="#2a0d12"/><rect x="40" y="22" width="26" height="22" rx="4" fill="#e9e3d8"/><rect x="134" y="28" width="26" height="16" rx="4" fill="#e9e3d8"/><circle cx="58" cy="100" r="40" fill="#f4efe6"/><circle cx="142" cy="100" r="40" fill="#f4efe6"/><line x1="58" y1="100" x2="58" y2="70" stroke="#111" stroke-width="5" stroke-linecap="round"/><line x1="58" y1="100" x2="76" y2="108" stroke="#111" stroke-width="4" stroke-linecap="round"/><line x1="142" y1="100" x2="162" y2="80" stroke="#7A1626" stroke-width="5" stroke-linecap="round"/><line x1="142" y1="100" x2="142" y2="76" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M158 64l10-8 3 10z" fill="#7A1626"/></svg>
+          <span class="name">Цейтнот</span></div>
+        <div class="body"><span class="real">«Сложные переговоры»</span><div class="meta"><span>3 дня</span><span>очно</span><span>экспертный</span></div><p class="after"><b>После тренинга</b>Держите удар, когда давят, торопят и манипулируют. Не теряете темп.</p></div>
+      </article>
+      <article class="lvl" data-l="4" style="--c:var(--lv4)">
+        <div class="pic"><span class="glass badge">Уровень 4</span><span class="meter" aria-label="Сложность 4 из 4"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+          <svg class="obj" viewBox="0 0 200 160" aria-hidden="true"><defs><linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#b9bcc2"/><stop offset="1" stop-color="#6d7178"/></linearGradient></defs><path d="M30 60h88v-14h44v28h-24a46 46 0 1 1-108-14z" fill="url(#wh)"/><circle cx="74" cy="96" r="30" fill="url(#wh)"/><circle cx="74" cy="96" r="12" fill="#1a1a1a"/><rect x="118" y="46" width="44" height="14" fill="#d9dbe0"/><circle cx="30" cy="62" r="9" fill="none" stroke="#c9ccd2" stroke-width="5"/><path d="M22 66C8 90 6 130 30 150" fill="none" stroke="#d4f53c" stroke-width="4" stroke-linecap="round"/></svg>
+          <span class="name">Судья без приговора</span></div>
+        <div class="body"><span class="real">«Переговоры с посредником (медиация)»</span><div class="meta"><span>10 дней</span><span>до 12 человек</span><span>мастер</span></div><p class="after"><b>После тренинга</b>Ведёте переговоры чужих сторон как медиатор и помогаете им договориться.</p></div>
+      </article>
+      <article class="lvl" data-l="5" style="--c:var(--lv5)">
+        <div class="pic"><span class="glass badge">Блиц</span><span class="meter" aria-label="Формат: один день онлайн"><i class="on"></i><i></i><i></i><i></i></span>
+          <svg class="obj" viewBox="0 0 140 200" aria-hidden="true" style="width:34%"><rect x="14" y="8" width="112" height="14" rx="6" fill="#3a2410"/><rect x="14" y="178" width="112" height="14" rx="6" fill="#3a2410"/><path d="M28 22h84c0 40-30 54-36 78 6 24 36 38 36 78H28c0-40 30-54 36-78-6-24-36-38-36-78z" fill="rgba(255,255,255,.55)" stroke="#fff" stroke-width="3"/><path d="M44 50h52c-6 18-20 26-26 44-6-18-20-26-26-44z" fill="#f6d59a"/><path d="M40 176c4-22 18-30 30-36 12 6 26 14 30 36z" fill="#f6d59a"/><line x1="70" y1="96" x2="70" y2="140" stroke="#f6d59a" stroke-width="3" stroke-dasharray="3 5"/></svg>
+          <span class="name">Блиц за день</span></div>
+        <div class="body"><span class="real">«Переговоры за день: результат здесь и сейчас»</span><div class="meta"><span>6 часов</span><span>онлайн</span><span>интенсив</span></div><p class="after"><b>После тренинга</b>Готовый план на ваши ближайшие переговоры уже к вечеру.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ УСЛУГИ ДЛЯ БИЗНЕСА ============ -->
+<section class="sec dark" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Для бизнеса — <span class="g">тактическая доска</span></h2>
+      <p>Список услуг, где при наведении меняется сцена справа, как в вашем референсе. Каждая услуга — <b>игровая ситуация</b> на тактической доске тренера.</p>
+    </div>
+    <div class="svc">
+      <div class="svc-list" role="tablist" aria-label="Услуги для бизнеса">
+        <button class="svc-item" role="tab" aria-selected="true" data-s="0"><small>01</small><b>Медиация бизнес-споров</b><em>флагман</em></button>
+        <button class="svc-item" role="tab" aria-selected="false" data-s="1"><small>02</small><b>Подготовка к переговорам</b><em>спринт</em></button>
+        <button class="svc-item" role="tab" aria-selected="false" data-s="2"><small>03</small><b>Сопровождение сделки</b><em>рядом за столом</em></button>
+        <button class="svc-item" role="tab" aria-selected="false" data-s="3"><small>04</small><b>Конфликтологический аудит</b><em>разбор игры</em></button>
+        <button class="svc-item" role="tab" aria-selected="false" data-s="4"><small>05</small><b>Стратегическая сессия</b><em>сборы команды</em></button>
+      </div>
+      <div class="stage rv" role="tabpanel" aria-live="polite">
+        <svg class="board" viewBox="0 0 800 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect class="line" x="60" y="40" width="680" height="440" rx="6"/>
+          <line class="line" x1="400" y1="40" x2="400" y2="480"/>
+          <circle class="line" cx="400" cy="260" r="70"/>
+          <rect class="line" x="60" y="160" width="90" height="200"/><rect class="line" x="650" y="160" width="90" height="200"/>
+          <g id="bA"></g>
+        </svg>
+        <div class="glass cap"><span class="t" id="svcT">Ход 01 · флагман</span><b id="svcB">Две стороны, одно поле</b><p id="svcP">Споры собственников и партнёров. Сначала встреча с каждой стороной, потом совместная. Обычно 2–3 встречи, без суда и огласки.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ТРЕНЕР ============ -->
+<section class="sec" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Тренер, <span class="g">которому доверяет суд</span></h2>
+      <p>Карточка как у тренеров спортклуба: фото, цифры, регалии одной строкой. <b>Регалии читаются за пять секунд.</b></p>
+    </div>
+    <div class="coach rv">
+      <div class="ph"><img src="assets/oleg-portrait.jpg" width="440" height="560" alt="Олег Маврин" loading="lazy"><span class="nm">Олег<br>Маврин</span></div>
+      <div class="side">
+        <div class="stats">
+          <div><b>15+</b><span>лет ведёт переговоры</span></div>
+          <div><b>2011</b><span>медиатор, основал «Лигу медиаторов Поволжья»</span></div>
+          <div><b>ТПП</b><span>председатель Коллегии посредников ТПП РТ</span></div>
+          <div><b>к.с.н.</b><span>доцент по конфликтологии, магистр права</span></div>
+        </div>
+        <div class="badges"><span class="glass">Арбитражный суд РТ · комната примирения</span><span class="glass">КФУ · Центр медиации</span><span class="glass">ВШБ РЭУ им. Плеханова</span><span class="glass">Институт «Консенсус»</span></div>
+        <div><a class="pair lime" href="#price"><span class="l">Записаться на разбор</span><span class="i"><svg><use href="#ar"/></svg></span></a></div>
+      </div>
+    </div>
+    <div class="logos" aria-label="Клиенты"><div>
+      <span>L'ORÉAL</span><span>Газпромнефть ЭР</span><span>ICL Services</span><span>Россети</span><span>АО «КМПО»</span><span>ТРК Глобал Сити</span><span>Shandong Desenhai</span>
+      <span>L'ORÉAL</span><span>Газпромнефть ЭР</span><span>ICL Services</span><span>Россети</span><span>АО «КМПО»</span><span>ТРК Глобал Сити</span><span>Shandong Desenhai</span>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ КЕЙСЫ: ПРОТОКОЛЫ МАТЧЕЙ ============ -->
+<section class="sec" id="cases">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Сложные кейсы — <span class="g">как протокол матча</span></h2>
+      <p>Без имён, но с людьми и счётом. Участники — таблетками с аватарками, как в вашем референсе. Итог всегда <b>1 : 1</b>, потому что выиграли оба.</p>
+    </div>
+    <div class="matches">
+      <article class="match rv">
+        <div class="hd"><b>Матч · спор учредителей</b><span>Казань</span></div>
+        <div class="teams">
+          <div class="team"><span class="who"><i style="--c:#d4f53c">А</i>Учредитель · 51%</span><span class="who"><i style="--c:#9fb7ff">Ю</i>Юрист</span></div>
+          <div class="score">1<em>:</em>1</div>
+          <div class="team"><span class="who"><i style="--c:#ffb38a">Б</i>Учредитель · 49%</span><span class="who"><i style="--c:#c9c9c9">С</i>Семья</span></div>
+        </div>
+        <span class="who med"><i style="--c:#fff">ОМ</i>Медиатор</span>
+        <div class="stats"><div><b>3</b><span>встречи</span></div><div><b>41</b><span>день</span></div><div><b>0</b><span>судов</span></div><div><b>✓</b><span>бизнес сохранён</span></div></div>
+        <p class="story">Партнёры 10 лет вместе, спор о доле и выводе денег. Договорились о выкупе в рассрочку, компания работает.</p>
+      </article>
+      <article class="match rv">
+        <div class="hd"><b>Матч · подрядчик и заказчик</b><span>стройка</span></div>
+        <div class="teams">
+          <div class="team"><span class="who"><i style="--c:#d4f53c">З</i>Заказчик</span><span class="who"><i style="--c:#9fb7ff">Т</i>Тех. надзор</span></div>
+          <div class="score">1<em>:</em>1</div>
+          <div class="team"><span class="who"><i style="--c:#ffb38a">П</i>Подрядчик</span><span class="who"><i style="--c:#c9c9c9">Ю</i>Юрист</span></div>
+        </div>
+        <span class="who med"><i style="--c:#fff">ОМ</i>Медиатор</span>
+        <div class="stats"><div><b>2</b><span>встречи</span></div><div><b>18</b><span>дней</span></div><div><b>70%</b><span>пошлины вернули</span></div><div><b>✓</b><span>объект сдан</span></div></div>
+        <p class="story">Спор о приёмке объекта шёл в арбитраже. Мировое соглашение, новый график работ и возврат части госпошлины.</p>
+      </article>
+      <article class="match rv">
+        <div class="hd"><b>Матч · команда и руководитель</b><span>компания 300+</span></div>
+        <div class="teams">
+          <div class="team"><span class="who"><i style="--c:#d4f53c">Р</i>Директор</span><span class="who"><i style="--c:#9fb7ff">H</i>HR</span></div>
+          <div class="score">1<em>:</em>1</div>
+          <div class="team"><span class="who"><i style="--c:#ffb38a">К</i>Отдел продаж</span><span class="who"><i style="--c:#c9c9c9">+8</i>сотрудников</span></div>
+        </div>
+        <span class="who med"><i style="--c:#fff">ОМ</i>Фасилитатор</span>
+        <div class="stats"><div><b>1</b><span>сессия</span></div><div><b>6</b><span>часов</span></div><div><b>0</b><span>увольнений</span></div><div><b>✓</b><span>новые правила</span></div></div>
+        <p class="story">Конфликт продаж и руководства из-за мотивации. Стратегическая сессия, общие правила и план на квартал.</p>
+      </article>
+    </div>
+    <p class="small" style="margin-top:1rem">Пример оформления. Реальные истории возьмём у Олега и обезличим.</p>
+  </div>
+</section>
+
+<!-- ============ КЛУБ ============ -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Клуб переговоров — <span class="g">подача победителя</span></h2>
+      <p>Та же тема завтрака, но в системе сайта. Афиши, сторис и обложки собираются из одних элементов: <b>корт, крупный заголовок, мяч</b>.</p>
+    </div>
+    <div class="club">
+      <figure class="rv"><img src="assets/oleg-poster.webp" width="720" height="1280" alt="Нынешняя афиша завтрака клуба" loading="lazy"><figcaption>Сейчас: кофе, книги, уютный кабинет</figcaption></figure>
+      <div class="poster rv">
+        <svg class="court" viewBox="0 0 1600 520" preserveAspectRatio="none" aria-hidden="true"><polygon points="300,40 1300,40 1600,520 0,520" fill="#123d85"/><g fill="none" stroke="rgba(255,255,255,.7)" stroke-width="3"><polygon points="330,52 1270,52 1560,512 40,512"/><line x1="800" y1="52" x2="800" y2="512"/><line x1="190" y1="380" x2="1410" y2="380"/></g></svg>
+        <span class="ball p-ball" style="--s:16rem" aria-hidden="true"></span>
+        <div class="top"><span>Клуб переговоров<br>Олега Маврина</span><span style="text-align:right">Завтрак с экспертом<br>Казань</span></div>
+        <div style="display:grid;gap:1rem;align-content:end"><span class="date">06.12</span><h3>Мужской взгляд на конфликты</h3></div>
+        <div class="bot"><span class="glass seat"><span>Осталось 4 места из 12</span><span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i><i class="free"></i><i class="free"></i><i class="free"></i></span></span><a class="pair lime" href="#price"><span class="l">Записаться</span><span class="i"><svg><use href="#ar"/></svg></span></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ РЕФЕРЕНСЫ ============ -->
+<section class="sec dark" id="refs">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>На что опираемся — <span class="g">потяните ленту</span></h2>
+      <p>Ваши референсы и сайты уровня Awwwards. <b>Каждый даёт один конкретный приём</b>, список ниже.</p>
+    </div>
+  </div>
+  <div class="ribbon" id="ribbon"><div class="ribbon-track" id="ribbonTrack"></div></div>
+  <div class="wrap">
+    <div class="refs">
+      <a class="ref" href="https://landonorris.com" target="_blank" rel="noopener"><b>Lando Norris</b><svg><use href="#ar"/></svg><span>Подпись рисуется на экране — подпись Олега в первом экране</span></a>
+      <a class="ref" href="https://jjettas.com" target="_blank" rel="noopener"><b>Justin Jefferson · SOTD</b><svg><use href="#ar"/></svg><span>Спортивный портрет, отъезд камеры, факты по бокам</span></a>
+      <a class="ref" href="https://santalarch.com" target="_blank" rel="noopener"><b>SANTAL · SOTD</b><svg><use href="#ar"/></svg><span>Слова плывут в глубине — блок «послания для мудрых»</span></a>
+      <a class="ref" href="https://www.wearebulletproof.com" target="_blank" rel="noopener"><b>Bulletproof · SOTD</b><svg><use href="#ar"/></svg><span>Огромный список с подсветкой — услуги для бизнеса</span></a>
+      <a class="ref" href="https://brandonyasin.com" target="_blank" rel="noopener"><b>Brandon Yasin · SOTD</b><svg><use href="#ar"/></svg><span>Интерактив меняет палитру — уровни тренингов</span></a>
+      <a class="ref" href="https://camp.derzayvdesign.com/style/" target="_blank" rel="noopener"><b>Стиль Кэмпа</b><svg><use href="#ar"/></svg><span>Система: двухтоновые заголовки, кнопки, анимации появления</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ СТРУКТУРА ============ -->
+<section class="sec" id="structure">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Сайт из 12 блоков <span class="g">в порядке показа</span></h2>
+      <p>Нажмите на блок, чтобы прочитать, что внутри. Шесть из них <b>вы уже потрогали</b> выше.</p>
+    </div>
+    <div class="card prog" id="prog">
+      <div class="prog-row" aria-expanded="true"><button type="button"><span class="n">01</span><span class="t">Первый экран «Корт» <i>· подготовка, стратегия, результат</i></span><span class="pl">+</span></button><div class="bd"><div><p>Олег у сетки корта, три слова, подпись, карточка ближайшего завтрака и кнопка «Разобрать ситуацию». Нужна съёмка: синее небо, корт, чёрная водолазка.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">02</span><span class="t">Мяч на вашей стороне <i>· послания для мудрых</i></span><span class="pl">+</span></button><div class="bd"><div><p>Мячи в глубине кадра реагируют на курсор, четыре коротких послания о переговорах.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">03</span><span class="t">Тренер <i>· регалии за пять секунд</i></span><span class="pl">+</span></button><div class="bd"><div><p>Фото, четыре цифры, суд, ТПП, университеты. Бегущая лента логотипов клиентов.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">04</span><span class="t">Что у вас сейчас? <i>· маршрут к услуге</i></span><span class="pl">+</span></button><div class="bd"><div><p>Конфликт с партнёром, трудные переговоры, обучение команды или клуб. Каждая дверь ведёт к своему сценарию.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">05</span><span class="t">Услуги для бизнеса <i>· тактическая доска</i></span><span class="pl">+</span></button><div class="bd"><div><p>Медиация, подготовка, сопровождение, аудит, стратсессия. Сцена справа меняется при наведении.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">06</span><span class="t">Уровни тренингов <i>· подбор в один клик</i></span><span class="pl">+</span></button><div class="bd"><div><p>Пять уровней со своим цветом и предметом. Подбор по опыту снимает стресс выбора.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">07</span><span class="t">Цена конфликта <i>· калькулятор</i></span><span class="pl">+</span></button><div class="bd"><div><p>Сумма спора → госпошлина и сроки суда против медиации. Демо есть в <a href="index-v1-do.html#ideas">версии ДО</a>, перенесём в новый стиль.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">08</span><span class="t">Протоколы матчей <i>· кейсы</i></span><span class="pl">+</span></button><div class="bd"><div><p>Участники таблетками, счёт 1 : 1, цифры: встречи, дни, итог.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">09</span><span class="t">Клуб переговоров <i>· афиша и места</i></span><span class="pl">+</span></button><div class="bd"><div><p>Ближайший завтрак, оставшиеся места, коллекция прошедших тем, онлайн-лекции.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">10</span><span class="t">Тест «Поможет ли медиация?» <i>· лид-магнит</i></span><span class="pl">+</span></button><div class="bd"><div><p>Четыре вопроса, ответ и запись на разбор. Та же механика в Telegram-боте.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">11</span><span class="t">Отзывы и видеоответы <i>· минута с тренером</i></span><span class="pl">+</span></button><div class="bd"><div><p>Короткие видео Олега на частые вопросы и отзывы участников. Те же ролики идут в Reels.</p></div></div></div>
+      <div class="prog-row" aria-expanded="false"><button type="button"><span class="n">12</span><span class="t">Финал «Мяч на вашей стороне» <i>· форма заявки</i></span><span class="pl">+</span></button><div class="bd"><div><p>Подпись Олега, форма записи на разбор, заявка уходит в Telegram.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ МАРКЕТИНГ ============ -->
+<section class="sec" id="marketing" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Маркетинг — <span class="g">сезон на 90 дней</span></h2>
+      <p>Сейчас пять каналов и ни одной воронки: в Telegram-клубе 53 подписчика. Ведём человека <b>от зрителя до игрока</b>.</p>
+    </div>
+    <div class="fans rv">
+      <div class="fan" style="--h:9rem"><span class="st">Зритель</span><b>Reels, Telegram, MAX</b><small>разборы переговоров и послания</small></div>
+      <div class="fan" style="--h:11rem"><span class="st">Болельщик</span><b>Тест в боте</b><small>«Поможет ли медиация?», чек-лист</small></div>
+      <div class="fan" style="--h:13rem"><span class="st">Игрок</span><b>Завтрак, лекция</b><small>живая встреча с Олегом</small></div>
+      <div class="fan" style="--h:15rem"><span class="st">Клиент</span><b>Разбор, тренинг</b><small>первый платный шаг</small></div>
+      <div class="fan" style="--h:17rem"><span class="st">Партнёр</span><b>Медиация, контракт</b><small>основной доход</small></div>
+    </div>
+    <div class="season">
+      <div class="card rv"><div class="tour"><span class="small">Тур 1 · упаковка</span><b>01</b></div><ul><li>Сайт из 12 блоков</li><li>Telegram, MAX, Instagram в одном стиле</li><li>Тест-лид-магнит в боте</li><li>Яндекс Карты и отзывы</li></ul></div>
+      <div class="card rv"><div class="tour"><span class="small">Тур 2 · запуск</span><b>02</b></div><ul><li>Reels 3 раза в неделю</li><li>Завтрак клуба с афишей в новом стиле</li><li>Эфир с бизнес-омбудсменом РТ</li><li>Директ: «медиатор Казань»</li></ul></div>
+      <div class="card on rv"><div class="tour"><span class="small" style="color:#8a8a8a">Тур 3 · результат</span><b>03</b></div><ul><li>3–4 протокола матчей</li><li>Видеоотзывы участников</li><li>Онлайн-лекция для новых людей</li><li>Отчёт: заявки, записи, тест</li></ul></div>
+    </div>
+    <div class="rubrics">
+      <div class="rv"><small>Разборы</small><b>Громкие переговоры</b><span>«Почему раздел бизнеса заходит в тупик на второй встрече»</span></div>
+      <div class="rv"><small>Ошибки</small><b>Фраза, которая убивает сделку</b><span>«Не говорите партнёру „давай по-честному“»</span></div>
+      <div class="rv"><small>Диагностика</small><b>Пора звать медиатора?</b><span>«Три признака, что спор дойдёт до суда»</span></div>
+      <div class="rv"><small>Широкий охват</small><b>Мужской взгляд</b><span>«Почему мужчины молчат в конфликте»</span></div>
+      <div class="rv"><small>Закулисье</small><b>Работа медиатора</b><span>«Что происходит в комнате примирения суда»</span></div>
+      <div class="rv"><small>Послания</small><b>Игра для мудрых</b><span>«Ничья — тоже победа»</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЦЕНА ============ -->
+<section class="sec" id="price" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Три варианта — <span class="g">цены фиксированные</span></h2>
+      <p>Блок сайта — это смысл и текст, дизайн для всех экранов, самописный код и анимация. <b>12 900 ₽ за блок.</b></p>
+    </div>
+    <div class="prices rv">
+      <div class="seg" id="seg" role="group" aria-label="Способ оплаты"><button type="button" data-m="once" aria-pressed="true">Сразу</button><button type="button" data-m="two" aria-pressed="false">Два платежа</button></div>
+      <div class="plans" id="plans">
+        <div class="plan" data-now="154800"><div class="t"><b>01</b><span>Сайт</span></div><div class="pr"><b>154&nbsp;800&nbsp;₽</b><small>12 блоков</small></div>
+          <ul><li>Сайт из 12 блоков<span>154 800 ₽</span></li><li>6 живых идей<span>входят</span></li><li>Адаптив до 4K<span>входит</span></li></ul><div class="ft"><span>Срок</span><b>6 недель</b></div></div>
+        <div class="plan dark" data-now="219000"><div class="t"><b>02</b><span>Сайт + маркетинг</span><span class="rec">рекомендую</span></div><div class="pr"><s>239 500 ₽</s><b>219&nbsp;000&nbsp;₽</b><small>выгода 20 500 ₽</small></div>
+          <ul><li>Сайт из 12 блоков<span>154 800 ₽</span></li><li>Стратегия и сезон 90 дней<span>39 900 ₽</span></li><li>Упаковка соцсетей<span>24 900 ₽</span></li><li>Тест в Telegram-боте<span>19 900 ₽</span></li></ul><div class="ft"><span>Срок</span><b>7 недель</b></div></div>
+        <div class="plan" data-now="269000"><div class="t"><b>03</b><span>Под ключ</span></div><div class="pr"><s>305 400 ₽</s><b>269&nbsp;000&nbsp;₽</b><small>выгода 36 400 ₽</small></div>
+          <ul><li>Всё из варианта 02<span>239 500 ₽</span></li><li>12 сценариев Reels<span>36 000 ₽</span></li><li>ТЗ и режиссура съёмки<span>29 900 ₽</span></li></ul><div class="ft"><span>Срок</span><b>8 недель</b></div></div>
+      </div>
+      <div class="rate"><span>2 900 ₽ смысл и текст</span><span>4 200 ₽ дизайн</span><span>3 800 ₽ код</span><span>2 000 ₽ анимация</span></div>
+    </div>
+    <div class="incl">
+      <div class="card rv"><h3>Входит без доплаты</h3><ul><li>Тексты на языке бизнеса</li><li>Адаптив: телефон, ноутбук, 4K</li><li>Базовое SEO под Яндекс</li><li>Заявки в Telegram, документы по 152-ФЗ</li><li>2 круга правок на каждый блок</li></ul></div>
+      <div class="card rv"><h3>От Олега нужно</h3><ul><li>Цифры: медиации, обученные, компании</li><li>Разрешение на логотипы клиентов</li><li>3–4 истории для протоколов матчей</li><li>Съёмка на корте или в студии</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ФИНАЛ ============ -->
+<section class="wrap" style="padding-bottom:1rem">
+  <div class="final">
+    <span class="ball f-ball" style="--s:clamp(18rem,30vw,34rem)" aria-hidden="true"></span>
+    <span class="kicker">Стороны пришли к соглашению?</span>
+    <h2>Мяч на вашей <em>стороне,</em> Олег</h2>
+    <div class="steps">
+      <div><b>01 · Созвон</b><span>40 минут: что главное по деньгам</span></div>
+      <div><b>02 · Договор и 50%</b><span>Фиксируем вариант и сроки</span></div>
+      <div><b>03 · Старт</b><span>Через неделю — живой первый экран</span></div>
+    </div>
+    <div><a class="pair lime" href="#top"><span class="l">Ответить в переписке</span><span class="i"><svg><use href="#ar"/></svg></span></a></div>
+  </div>
+</section>
+<footer class="wrap"><span>Подготовила Элианора · 19.11.2026</span><a href="index-v1-do.html">Посмотреть версию ДО</a></footer>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const fmt = n => n.toLocaleString('ru-RU').replace(/\s/g, ' ') + ' ₽';
+
+  /* --- первый экран: карточка-фото выпрямляется, слова уходят вверх --- */
+  const hero = $('.hero');
+  let tk = false;
+  const onScroll = () => { tk = false; if (RM) return; const r = hero.getBoundingClientRect(); hero.style.setProperty('--p', clamp(-r.top / (r.height * .6)).toFixed(3)); };
+  addEventListener('scroll', () => { if (!tk) { tk = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+
+  /* --- подпись в первом экране рисуется --- */
+  const sig = $('#sig');
+  if (sig && !RM) { const L = Math.ceil(sig.getTotalLength()); sig.style.strokeDasharray = L; sig.style.strokeDashoffset = L; sig.getBoundingClientRect(); sig.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(.22,1,.36,1) .6s'; requestAnimationFrame(() => { sig.style.strokeDashoffset = 0; }); }
+
+  /* --- мячи реагируют на курсор --- */
+  const bz = $('#ballzone');
+  if (bz && !RM && matchMedia('(hover:hover)').matches) {
+    bz.addEventListener('pointermove', e => { const r = bz.getBoundingClientRect(); bz.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3)); bz.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3)); });
+    bz.addEventListener('pointerleave', () => { bz.style.setProperty('--mx', 0); bz.style.setProperty('--my', 0); });
+  }
+
+  /* --- шторка до/после --- */
+  const d = $('#diff');
+  if (d) {
+    let drag = false;
+    const put = v => { d.style.setProperty('--x', v + '%'); d.setAttribute('aria-valuenow', Math.round(v)); };
+    const set = x => { const r = d.getBoundingClientRect(); put(clamp((x - r.left) / r.width) * 100); };
+    d.addEventListener('pointerdown', e => { drag = true; d.setPointerCapture(e.pointerId); set(e.clientX); });
+    d.addEventListener('pointermove', e => { if (drag || e.pointerType === 'mouse') set(e.clientX); });
+    d.addEventListener('pointerup', () => drag = false);
+    d.addEventListener('pointerleave', () => { if (!drag) put(50); });
+    d.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); put(clamp(+d.getAttribute('aria-valuenow') + (e.key === 'ArrowRight' ? 5 : -5), 0, 100)); } });
+  }
+
+  /* --- подбор уровня --- */
+  const names = { 1: 'Уровень 1 «Первая подача»', 2: 'Уровень 2 «Ход конём»', 3: 'Уровень 3 «Цейтнот»', 4: 'Уровень 4 «Судья без приговора»', 5: 'Блиц за день, онлайн' };
+  const grid = $('#levelsGrid');
+  $$('.picker .pill').forEach(b => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    $$('.picker .pill').forEach(x => x.setAttribute('aria-pressed', x === b && on ? 'true' : 'false'));
+    grid.classList.toggle('picked', on);
+    $$('.lvl').forEach(c => c.classList.toggle('hit', on && c.dataset.l === b.dataset.l));
+    $('#pickRes').innerHTML = on ? `Вам подойдёт: <b>${names[b.dataset.l]}</b>` : 'Выберите — подсветим нужный уровень';
+    const hit = grid.querySelector('.lvl.hit');
+    if (hit && grid.scrollWidth > grid.clientWidth) grid.scrollTo({ left: hit.offsetLeft - grid.offsetLeft, behavior: RM ? 'auto' : 'smooth' });
+  }));
+
+  /* --- услуги: тактическая доска --- */
+  const S = [
+    ['Ход 01 · флагман', 'Две стороны, одно поле', 'Споры собственников и партнёров. Сначала встреча с каждой стороной, потом совместная. Обычно 2–3 встречи, без суда и огласки.',
+      '<path class="x" d="M200 230l24 24m0-24l-24 24M200 330l24 24m0-24l-24 24"/><circle class="o" cx="590" cy="250" r="14"/><circle class="o" cx="590" cy="350" r="14"/><path class="mv" d="M236 248C300 200 340 250 386 258"/><path class="mv" d="M574 252C510 210 460 250 414 260"/><circle cx="400" cy="260" r="10" fill="#d4f53c"/>'],
+    ['Ход 02 · спринт', 'Подача решает половину партии', 'Перед сделкой или трудным разговором: разбираем интересы сторон, готовим позиции и запасные варианты, репетируем.',
+      '<path class="x" d="M170 150l24 24m0-24l-24 24M170 260l24 24m0-24l-24 24M170 370l24 24m0-24l-24 24"/><path class="mv" d="M206 168C320 120 440 140 560 220"/><path class="mv" d="M206 276C330 270 450 270 560 270"/><path class="mv" d="M206 384C320 410 450 380 560 320"/><circle class="o" cx="590" cy="270" r="22"/>'],
+    ['Ход 03 · рядом за столом', 'Второй игрок в вашей команде', 'Олег на переговорах на вашей стороне: от подготовки до подписания. Держит темп и не даёт сорвать сделку.',
+      '<path class="x" d="M250 240l24 24m0-24l-24 24"/><path class="x" d="M250 300l24 24m0-24l-24 24" style="stroke:#d4f53c"/><circle class="o" cx="560" cy="260" r="14" style="stroke:#fff"/><circle class="o" cx="600" cy="320" r="14" style="stroke:#fff"/><path class="mv" d="M286 258C380 200 470 220 544 254"/><path class="mv" d="M286 318C380 330 470 330 584 322"/>'],
+    ['Ход 04 · разбор игры', 'Где команда теряет очки', 'Конфликтологический аудит: находим, где в компании копятся конфликты и что мешает договариваться.',
+      '<rect x="180" y="300" width="50" height="120" fill="#d4f53c" opacity=".9"/><rect x="260" y="230" width="50" height="190" fill="#fff" opacity=".85"/><rect x="340" y="340" width="50" height="80" fill="#fff" opacity=".5"/><rect x="420" y="190" width="50" height="230" fill="#fff" opacity=".85"/><rect x="500" y="270" width="50" height="150" fill="#fff" opacity=".6"/><path class="mv" d="M205 290L285 220L365 330L445 180L525 260"/>'],
+    ['Ход 05 · сборы команды', 'Одна команда, одна стратегия', 'Фасилитация и стратегические сессии: отделы перестают тянуть в разные стороны и договариваются о правилах.',
+      '<circle class="o" cx="400" cy="260" r="90" style="stroke-dasharray:6 10"/><path class="x" d="M300 160l20 20m0-20l-20 20M480 160l20 20m0-20l-20 20M300 340l20 20m0-20l-20 20M480 340l20 20m0-20l-20 20"/><path class="mv" d="M322 182L384 244M478 182L416 244M322 338L384 276M478 338L416 276"/><circle cx="400" cy="260" r="12" fill="#d4f53c"/>']
+  ];
+  const bA = $('#bA');
+  let curS = 0;
+  const showS = i => {
+    if (i === curS && bA.innerHTML) return; curS = i;
+    $$('.svc-item').forEach(x => x.setAttribute('aria-selected', +x.dataset.s === i ? 'true' : 'false'));
+    $('#svcT').textContent = S[i][0]; $('#svcB').textContent = S[i][1]; $('#svcP').textContent = S[i][2];
+    bA.style.opacity = 0;
+    setTimeout(() => { bA.innerHTML = S[i][3]; bA.style.opacity = 1; }, RM ? 0 : 200);
+  };
+  $$('.svc-item').forEach(b => { const i = +b.dataset.s; b.addEventListener('mouseenter', () => showS(i)); b.addEventListener('click', () => showS(i)); b.addEventListener('focus', () => showS(i)); });
+  bA.innerHTML = S[0][3];
+
+  /* --- лента референсов: 3D-цилиндр (из стиля Кэмпа) --- */
+  const imgs = ['mood/tenista.webp','ref-lando.jpg','mood/jjo.webp','ref-santal.jpg','mood/rapeto.png','ref-jjettas.jpg','mood/lattice.png','ref-bullet-list.jpg','mood/services-b.jpg','ref-yasin.jpg','mood/webmotion.jpg','ref-cahn.jpg','mood/edufest.jpg','ref-mishcon.jpg','mood/services-a.webp','ref-sunny.jpg'];
+  const tr = $('#ribbonTrack');
+  [...imgs, ...imgs].forEach(n => { const i = new Image(); i.src = 'assets/' + n; i.alt = ''; i.decoding = 'async'; i.draggable = false; tr.appendChild(i); });
+  (() => {
+    const rb = tr.parentElement, cards = [...tr.children];
+    let off = 0, vel = 0, last = 0, half = 0, lefts = [], widths = [], W = 0, R = 1, hover = false, drag = null;
+    const measure = () => { W = rb.clientWidth; R = (W / 2) / 0.62; half = tr.scrollWidth / 2; lefts = cards.map(c => c.offsetLeft); widths = cards.map(c => c.offsetWidth); };
+    const paint = () => {
+      if (half) { off %= half; if (off > 0) off -= half; }
+      tr.style.transform = `translate3d(${off}px,0,0)`;
+      for (let i = 0; i < cards.length; i++) {
+        const s = lefts[i] + widths[i] / 2 + off - W / 2, a = s / R;
+        if (Math.abs(a) > 1.45) { cards[i].style.visibility = 'hidden'; continue; }
+        cards[i].style.visibility = 'visible';
+        const x = R * Math.sin(a) - s, z = R * Math.cos(a) - R;
+        cards[i].style.transform = `translate3d(${x.toFixed(1)}px,0,${z.toFixed(1)}px) rotateY(${(a * 57.2958).toFixed(2)}deg)`;
+      }
+    };
+    const tick = t => { const dt = last ? Math.min((t - last) / 1000, .1) : 0; last = t;
+      if (!drag) { if (Math.abs(vel) > 4) { off += vel * dt; vel *= .95; } else if (!hover && !RM) off -= 38 * dt; }
+      paint(); requestAnimationFrame(tick); };
+    rb.addEventListener('pointerenter', () => hover = true); rb.addEventListener('pointerleave', () => hover = false);
+    rb.addEventListener('pointerdown', e => { drag = { x: e.clientX }; vel = 0; rb.classList.add('drag'); rb.setPointerCapture(e.pointerId); });
+    rb.addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.x; drag.x = e.clientX; off += dx; vel = dx * 60; });
+    const up = () => { drag = null; rb.classList.remove('drag'); }; rb.addEventListener('pointerup', up); rb.addEventListener('pointercancel', up);
+    const re = () => { measure(); paint(); }; addEventListener('resize', re); cards.forEach(c => c.addEventListener('load', re));
+    re(); requestAnimationFrame(tick);
+  })();
+
+  /* --- программа сайта --- */
+  $$('#prog .prog-row').forEach(r => r.querySelector('button').addEventListener('click', () => { r.setAttribute('aria-expanded', r.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); }));
+
+  /* --- цены: сразу / два платежа, числа перетекают --- */
+  const anim = (el, to) => { const from = parseInt(el.textContent.replace(/\D/g, '')) || 0, t0 = performance.now();
+    const step = t => { const k = Math.min(1, (t - t0) / 500), e = 1 - Math.pow(1 - k, 3); el.textContent = fmt(Math.round(from + (to - from) * e)); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); };
+  $$('#seg button').forEach(btn => btn.addEventListener('click', () => {
+    $$('#seg button').forEach(x => x.setAttribute('aria-pressed', x === btn ? 'true' : 'false'));
+    const two = btn.dataset.m === 'two';
+    $$('#plans .plan').forEach(c => { const now = +c.dataset.now; anim(c.querySelector('.pr b'), two ? Math.round(now / 2) : now);
+      const sm = c.querySelector('.pr small'); if (!sm.dataset.orig) sm.dataset.orig = sm.textContent; sm.textContent = two ? '× 2 платежа: старт и сдача' : sm.dataset.orig;
+      const s = c.querySelector('.pr s'); if (s) s.style.visibility = two ? 'hidden' : ''; });
+  }));
+
+  /* --- кнопки-магниты и 3D-наклон --- */
+  if (!RM && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    $$('.final .pair, .ballzone .pair, .coach .pair').forEach(b => { const box = b.parentElement;
+      box.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .15}px,${(e.clientY - r.top - r.height / 2) * .3}px)`; });
+      box.addEventListener('pointerleave', () => b.style.transform = ''); });
+    $$('.lvl, .match').forEach(f => { f.classList.add('tilt');
+      f.addEventListener('pointermove', e => { const r = f.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; f.style.transform = `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`; });
+      f.addEventListener('pointerleave', () => f.style.transform = ''); });
+  }
+
+  /* --- заголовки по словам из размытия + появление блоков --- */
+  const split = el => { [...el.childNodes].forEach(n => { if (n.nodeType === 3) { const f = document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(w => { if (!w) return; if (/^\s+$/.test(w)) { f.append(w); return; } const sp = document.createElement('span'); sp.className = 'wd'; sp.textContent = w; f.append(sp); }); n.replaceWith(f); } else if (n.nodeType === 1 && n.tagName !== 'BR') split(n); }); };
+  const heads = $$('.sec-head');
+  heads.forEach(h => { const t = h.querySelector('h2'); if (!t) return; split(t); t.querySelectorAll('.wd').forEach((w, i) => w.style.setProperty('--i', i)); });
+  const rvs = $$('.rv');
+  if ('IntersectionObserver' in window && !RM) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+    rvs.forEach((el, i) => { el.style.transitionDelay = ((i % 4) * 90) + 'ms'; io.observe(el); });
+    const ioh = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ioh.unobserve(e.target); } }), { threshold: .3 });
+    heads.forEach(h => ioh.observe(h));
+  } else { rvs.forEach(el => el.classList.add('in')); heads.forEach(h => h.classList.add('in')); }
+})();
+</script>
+</body>
+</html>
