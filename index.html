@@ -626,7 +626,9 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
 .band-light .band-ix a { border-color: var(--mist); }
 .band-light .band-ix .n, .band-light .band-ix small { color: var(--grey); }
 .band-light .band-ph { position: relative; border-radius: var(--r-lg); overflow: hidden; height: auto; aspect-ratio: 3 / 4; }
-.band-light .band-ph img { position: static !important; width: 100% !important; height: 100% !important; object-fit: cover; -webkit-mask-image: none !important; mask-image: none !important; }
+.band-light .band-ph { aspect-ratio: 4 / 5 !important; }
+/* кадр по карманы: показываем полосу 24–78% высоты фото, без пережатия файла */
+.band-light .band-ph img { position: absolute !important; width: 153.5% !important; height: auto !important; max-width: none; left: -26.7%; top: -44.4%; -webkit-mask-image: none !important; mask-image: none !important; }
 @media (min-width: 900px) { .band-light { grid-template-columns: minmax(0, 1fr) minmax(18rem, 34rem); } }
 /* идея 01 */
 .qz { align-items: stretch; }
@@ -643,14 +645,43 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
 .qz-glass { display: grid; gap: 1.25rem; }
 .fx-row { grid-template-columns: minmax(8.5rem, 10rem) minmax(0, 1fr); }
 .fx-row .nm small { max-width: 16ch; }
-.qz-stopcard { grid-column: 1 / -1; background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: var(--pad); border-top: 0 !important; gap: 1.25rem 3rem; }
-.qz-stopcard h4 { font-size: var(--fs-h3); }
-@media (min-width: 1100px) {
-  .qz-stopcard { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; }
-  .qz-stopcard h4 { grid-column: 1 / -1; }
-  .qz-stopcard ul { grid-column: 1; grid-row: 2 / span 3; }
-  .qz-stopcard .qz-plus, .qz-stopcard .voice, .qz-stopcard .qz-cta { grid-column: 2; }
-}
+/* высота не скачет: место под вопрос и шкалы зарезервировано */
+#qzBody { min-height: 30rem; }
+.qz-ask:has(#qzStop:not([hidden])) #qzBody { min-height: 0; }
+.ql-l { align-content: space-between !important; }
+@media (min-width: 1100px) { .qz > .qz-card { min-height: clamp(46rem, 38rem + 9vw, 56rem); } }
+.fx-row { min-height: 5.75rem; }
+.fx-row.wait .fx-bar { display: grid !important; opacity: .3; }
+.fx-bar { grid-template-columns: minmax(0, 1fr) minmax(10rem, 15rem) !important; }
+.fx-bar span { min-height: 1.4em; }
+/* стоп-лист: появляется на месте вопросов, пункты выезжают по одному */
+.qz-ask:has(#qzStop:not([hidden])) .qz-get, .qz-ask:has(#qzStop:not([hidden])) .qz-hint { display: none; }
+.qz-ask:has(#qzStop:not([hidden])) .qz-q { font-size: var(--fs-h3); }
+.qz-stopcard { background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: var(--pad); border-top: 0 !important; gap: 1rem; margin-top: auto; }
+.qz-stopcard h4 { font-size: clamp(1.5rem, 1.15rem + 1vw, 2.25rem); letter-spacing: -.025em; line-height: 1.05; }
+.qz-stopcard li { animation: stopIn .7s var(--ease) backwards; font-size: var(--fs-body); }
+.qz-stopcard li:nth-child(2) { animation-delay: .18s; } .qz-stopcard li:nth-child(3) { animation-delay: .36s; }
+.qz-stopcard li::before { background: #fff !important; color: var(--ink) !important; font-weight: 600; }
+@keyframes stopIn { from { opacity: 0; transform: translateX(-14px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+.qz-stopcard .voice, .qz-stopcard .qz-cta { display: none; }
+/* захват контакта: высокая ценность на последнем шаге */
+.qz-lead { grid-column: 1 / -1; display: grid; gap: var(--gap); background: var(--stone); border-radius: var(--r-lg); padding: clamp(.75rem, 1.2vw, 1.25rem); animation: qzIn .7s var(--ease); }
+@media (min-width: 1100px) { .qz-lead { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); } }
+.ql-l { background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: var(--pad); display: grid; gap: 1.25rem; align-content: start; }
+.ql-l .qz-who b { color: #fff; } .ql-l .qz-who span { color: rgba(255,255,255,.7); }
+.ql-note { margin: 0; font-size: var(--fs-meta); color: rgba(255,255,255,.65); }
+.ql-f { padding: var(--pad); display: grid; gap: 1rem; align-content: start; }
+.ql-k { justify-self: start; padding: .35rem .85rem; border-radius: 999px; background: var(--ink); color: #fff; font-size: var(--fs-meta); }
+.ql-h { font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.75rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.02; }
+.ql-v { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.ql-v li { display: grid; grid-template-columns: 1.5rem 1fr; gap: .75rem; }
+.ql-v li::before { content: "✓"; width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; background: var(--paper); font-size: .875rem; }
+.ql-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+.ql-row input { flex: 1 1 14rem; min-width: 0; height: 3.25rem; padding: 0 1.25rem; border-radius: 999px; border: 1px solid var(--mist); background: var(--paper); font: inherit; font-size: var(--fs-body); color: var(--ink); }
+.ql-row input:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ql-row .pair.light { background: var(--ink); color: #fff; } .ql-row .pair.light .i { background: #fff; color: var(--ink); }
+.ql-f small { font-size: var(--fs-meta); color: var(--grey); }
+.ql-done { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -.015em; }
 /* зеркало: воздух между списком и кадром, текст спокойнее */
 @media (min-width: 1100px) { .mir { grid-template-columns: minmax(0, 1.2fr) minmax(0, .85fr); column-gap: clamp(3rem, 2rem + 4vw, 8rem); } }
 .mir-it .q { font-size: clamp(1.125rem, 1rem + .45vw, 1.5rem); }
@@ -690,6 +721,11 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
 .po-t { position: absolute; top: 9cqw; left: 9cqw; right: 9cqw; font-size: clamp(2rem, 11cqw, 4.25rem); font-weight: 500; letter-spacing: -.035em; line-height: 1; color: #eee; }
 .po-y { position: absolute; top: 34cqw; left: 9cqw; font-size: clamp(1rem, 4.5cqw, 1.3rem); color: #ddd; }
 .po-d .po-h { bottom: 19cqw; font-size: clamp(1.75rem, 10cqw, 4rem); text-transform: none; }
+.po-e { color: var(--ink); background: #e9e9e7; }
+.po-e img { object-position: 50% 100%; }
+.po-e-top { position: absolute; top: 6cqw; left: 6cqw; right: 6cqw; display: flex; justify-content: space-between; font-size: clamp(1rem, 4cqw, 1.2rem); color: #3a3a3a; }
+.po-e-h { position: absolute; top: 7cqw; left: 6cqw; right: 6cqw; text-align: center; font-size: clamp(1.5rem, 9cqw, 3.5rem); font-weight: 400; letter-spacing: -.04em; line-height: .98; }
+.po-e-sub { position: absolute; top: 28cqw; left: 0; right: 0; text-align: center; font-size: clamp(1rem, 4cqw, 1.2rem); color: #3a3a3a; }
 .po-sub { position: absolute; left: 6cqw; right: 6cqw; bottom: 6cqw; font-size: clamp(1rem, 4cqw, 1.2rem); color: rgba(255,255,255,.85); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
@@ -770,7 +806,7 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
           <li><a href="#club"><span class="n">04</span><span><b>Афиши открытых встреч</b><small>Постеры с Олегом вместо списка мероприятий</small></span><svg><use href="#ar"/></svg></a></li>
         </ol>
       </div>
-      <div class="band-ph"><img src="assets/eli/leather.png" width="1536" height="2048" alt="Элианора" loading="lazy"></div>
+      <div class="band-ph"><img src="assets/eli/white-suit.jpeg" width="2005" height="3024" alt="Элианора" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -789,7 +825,7 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
           <button class="qz-back" type="button" id="qzBack" hidden>← Назад</button>
           <span class="qz-safe"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Без имени, телефона и названия компании</span>
         </div>
-      </div><ol class="qz-get"><li><b>Цена конфликта</b>деньги, время, огласка в цифрах</li><li><b>Стоп-лист</b>три вещи, которые нельзя делать сейчас</li><li><b>Голосовое от Олега</b>минута по делу в Telegram</li></ol></div>
+      </div><div class="stop qz-stopcard" id="qzStop" hidden></div><ol class="qz-get"><li><b>Цена конфликта</b>деньги, время, огласка в цифрах</li><li><b>Стоп-лист</b>три вещи, которые нельзя делать сейчас</li><li><b>Голосовое от Олега</b>минута по делу в Telegram</li></ol></div>
       <div class="qz-card qz-res" aria-live="polite">
         <span class="lbl">Цена конфликта · суд против медиации</span>
         <p class="qz-main" id="qzMain"><span class="muted">Ответьте на вопросы слева — шкалы заполнятся под вашу ситуацию.</span></p>
@@ -802,7 +838,18 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
           <div class="fx-row wait" data-f="rel"><div class="nm">Отношения<small>что останется</small></div><div class="fx-bar"><b></b><span>—</span></div><div class="fx-bar m"><b></b><span>—</span></div></div>
         </div>
         </div>
-      <div class="stop qz-stopcard" id="qzStop" hidden></div>
+      <div class="qz-lead" id="qzLead" hidden>
+        <div class="ql-l"><div class="qz-who"><img src="assets/oleg-ava.jpg" width="240" height="240" alt=""><span><b>Олег Маврин</b>ответит лично в течение дня</span></div>
+          <div class="msg him voice"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span class="wave"><i style="--h:0.35;--d:0"></i><i style="--h:0.6;--d:100"></i><i style="--h:0.9;--d:200"></i><i style="--h:0.5;--d:300"></i><i style="--h:0.75;--d:400"></i><i style="--h:1;--d:500"></i><i style="--h:0.55;--d:600"></i><i style="--h:0.8;--d:700"></i><i style="--h:0.4;--d:800"></i><i style="--h:0.7;--d:900"></i><i style="--h:0.95;--d:1000"></i><i style="--h:0.6;--d:1100"></i><i style="--h:0.45;--d:1200"></i><i style="--h:0.85;--d:1300"></i><i style="--h:0.65;--d:1400"></i><i style="--h:0.3;--d:1500"></i><i style="--h:0.75;--d:1600"></i><i style="--h:0.9;--d:1700"></i><i style="--h:0.5;--d:1800"></i><i style="--h:0.6;--d:1900"></i><i style="--h:0.35;--d:2000"></i><i style="--h:0.8;--d:2100"></i><i style="--h:0.55;--d:2200"></i><i style="--h:0.7;--d:2300"></i></span><span>0:52</span></div>
+          <p class="ql-note">Так звучит ответ Олега: минута по делу, без продаж.</p></div>
+        <form class="ql-f" id="qlForm" novalidate>
+          <span class="ql-k">Бесплатно для вашей ситуации</span>
+          <b class="ql-h">Личный план выхода из конфликта</b>
+          <ul class="ql-v"><li>Голосовой разбор от Олега: с чего начать завтра</li><li>Шаблон первого письма второй стороне, который снижает накал</li><li>Расчёт, сколько вы сохраните без суда</li></ul>
+          <div class="ql-row"><input type="text" name="c" placeholder="Telegram или телефон" aria-label="Telegram или телефон" autocomplete="tel"><button class="pair light" type="submit"><span class="l">Получить план</span><span class="i"><svg><use href="#ar"/></svg></span></button></div>
+          <small>Без названия компании. Олег ответит лично, без рассылок.</small>
+        </form>
+      </div>
     </div>
     
     <p class="meta" style="margin-top:1rem">Демо для КП. Госпошлина по ст. 333.21 НК РФ, сроки и стоп-листы сверим с Олегом.</p>
@@ -882,7 +929,7 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
       <article class="po po-a"><img src="assets/gen/v5/poster-laugh.png" width="1856" height="2304" alt="" loading="lazy"><span class="po-top">Клуб переговоров Олега Маврина</span><b class="po-h">Переговоры<br>о деньгах</b><span class="po-pill">6 декабря · завтрак · 4 места</span></article>
       <article class="po po-b"><img src="assets/gen/v5/poster-stool-navy.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-word">Пауза</b><span class="po-line"><i></i>Как сказать «нет» партнёру<i></i></span><img class="po-cut" src="assets/gen/v5/poster-stool-cut.png" width="1856" height="2304" alt="" loading="lazy"><span class="po-foot">13 декабря<br>Клуб переговоров</span></article>
       <article class="po po-c"><img src="assets/gen/v5/meta-chess.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-t">Конфликт<br>наследников</b><span class="po-y">20.12</span></article>
-      <article class="po po-d"><img src="assets/gen/v5/poster-over-shoulder.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-h">Через плечо<br>переговорщика</b><span class="po-sub">Разбор реальной встречи · 27 декабря</span></article>
+      <article class="po po-e"><img src="assets/gen/v5/poster-bw-chair.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-e-h">Разбор реальной встречи</b><span class="po-e-sub">27 декабря · Клуб переговоров</span></article>
     </div>
     <p class="meta" style="margin-top:1rem">Кадры сгенерированы по фото Олега в стиле первого экрана. Для сайта их можно повторить в съёмке.</p>
   </div>
@@ -971,7 +1018,7 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
     <div><a class="pair light" href="#top"><span class="l">Ответить в переписке</span><span class="i"><svg><use href="#ar"/></svg></span></a></div>
   </div>
 </section>
-<footer class="wrap"><span>Подготовила Элианора, 19.11.2026</span><span>Прошлые версии: <a href="index-v1-do.html">1</a>, <a href="index-v2.html">2</a>, <a href="index-v3.html">3</a>, <a href="index-v4.html">4</a>, <a href="index-v5.html">5</a>, <a href="index-v6.html">6</a></span></footer>
+<footer class="wrap"><span>Подготовила Элианора, 19.11.2026</span><span>Прошлые версии: <a href="index-v1-do.html">1</a>, <a href="index-v2.html">2</a>, <a href="index-v3.html">3</a>, <a href="index-v4.html">4</a>, <a href="index-v5.html">5</a>, <a href="index-v6.html">6</a>, <a href="index-v7.html">7</a></span></footer>
 <script>
 (() => {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -1053,7 +1100,7 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
       const st = $('#qzStop');
       st.innerHTML = `<h4>Стоп-лист: чего не делать прямо сейчас</h4><ul>${STOP[A.who].map(x => `<li>${x}</li>`).join('')}</ul>${plus}
         <div class="msg him voice"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span class="wave"><i style="--h:0.35;--d:0"></i><i style="--h:0.6;--d:100"></i><i style="--h:0.9;--d:200"></i><i style="--h:0.5;--d:300"></i><i style="--h:0.75;--d:400"></i><i style="--h:1;--d:500"></i><i style="--h:0.55;--d:600"></i><i style="--h:0.8;--d:700"></i><i style="--h:0.4;--d:800"></i><i style="--h:0.7;--d:900"></i><i style="--h:0.95;--d:1000"></i><i style="--h:0.6;--d:1100"></i><i style="--h:0.45;--d:1200"></i><i style="--h:0.85;--d:1300"></i><i style="--h:0.65;--d:1400"></i><i style="--h:0.3;--d:1500"></i><i style="--h:0.75;--d:1600"></i><i style="--h:0.9;--d:1700"></i><i style="--h:0.5;--d:1800"></i><i style="--h:0.6;--d:1900"></i><i style="--h:0.35;--d:2000"></i><i style="--h:0.8;--d:2100"></i><i style="--h:0.55;--d:2200"></i><i style="--h:0.7;--d:2300"></i></span><span>0:52</span></div><div class="qz-cta"><a class="pair ind" href="#price"><span class="l">Получить голосовое от Олега</span><span class="i"><svg><use href="#ar"/></svg></span></a><small>Анонимно, в Telegram. Олег разберёт ваш результат и скажет, с чего начать.</small></div>`;
-      st.hidden = false; st.classList.remove('qz-fade'); void st.offsetWidth; st.classList.add('qz-fade');
+      st.hidden = false; const ld = $('#qzLead'); if (ld && ld.hidden) { ld.hidden = false; } if (innerWidth < 1100) st.scrollIntoView({ behavior: 'smooth', block: 'center' }); st.classList.remove('qz-fade'); void st.offsetWidth; st.classList.add('qz-fade');
     };
     const render = () => {
       bars.forEach((b, i) => b.classList.toggle('on', i <= Math.min(step, 3)));
@@ -1119,6 +1166,10 @@ q, .lead, .step-t p, .aud p { text-wrap: pretty; }
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(); io.disconnect(); } }), { threshold: .3 });
     io.observe(box);
   })();
+  /* захват контакта: демо-отправка */
+  const qf = $('#qlForm');
+  if (qf) qf.addEventListener('submit', e => { e.preventDefault(); const v = qf.c.value.trim(); if (!v) { qf.c.focus(); return; }
+    qf.innerHTML = '<span class="ql-k">Готово</span><p class="ql-done">Спасибо. Олег пришлёт личный план в Telegram в течение дня.</p><small>Демо для КП: на сайте заявка уйдёт Олегу в Telegram.</small>'; });
   /* варианты цвета стены на первом экране */
   $$('.hero-sw button').forEach(b => b.addEventListener('click', () => {
     $$('.hero-sw button').forEach(x => x.setAttribute('aria-pressed', x === b)); $('.h3-img').src = b.dataset.src;
