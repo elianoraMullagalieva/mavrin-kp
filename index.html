@@ -588,6 +588,109 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
 .fsig svg { width: 100%; height: auto; border-bottom: 1px solid var(--graphite); padding-bottom: .5rem; }
 .fsig path { fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .fsig span { font-size: var(--fs-meta); color: rgba(255,255,255,.65); }
+
+/* v5b */
+q, .lead, .step-t p, .aud p { text-wrap: pretty; }
+.cl-av i:nth-child(1) { background: #8d8a84; } .cl-av i:nth-child(2) { background: #b9b5ad; } .cl-av i:nth-child(3) { background: #5f5d59; }
+.cl-av i { box-shadow: 0 0 0 2px rgba(255,255,255,.9) !important; }
+.hero-sw { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .875rem; font-size: var(--fs-meta); color: var(--grey); }
+.hero-sw button { display: inline-flex; align-items: center; gap: .5rem; border: 0; cursor: pointer; font: inherit; padding: .4rem .9rem .4rem .45rem; border-radius: 999px; background: var(--stone); color: var(--ink); }
+.hero-sw button i { width: 1.25rem; height: 1.25rem; border-radius: 50%; }
+.hero-sw button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.hero-sw + .hero-note { margin-top: .5rem; }
+/* плашка клуба — дорогое стекло: сильное размытие, тонкий светлый край, блик сверху */
+.h3-club { background: rgba(255,255,255,.34) !important; border: 1px solid rgba(255,255,255,.55) !important; -webkit-backdrop-filter: blur(26px) saturate(1.35) !important; backdrop-filter: blur(26px) saturate(1.35) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 18px 50px rgba(8,8,8,.12); }
+.h3-frame * { transition: color .5s var(--ease), background-color .5s var(--ease), border-color .5s var(--ease); }
+/* тёмная стена (индиго, терракота): тексты светлые, стекло дымчатое, как в Tenista */
+.h3-frame.on-dark { color: #fff; }
+.h3-frame.on-dark .h3-nav nav, .h3-frame.on-dark .h3-tel, .h3-frame.on-dark .h3-w small, .h3-frame.on-dark .h3-sign span { color: rgba(255,255,255,.82); }
+.h3-frame.on-dark .h3-logo i b { background: #fff; }
+.h3-frame.on-dark .h3-club { background: rgba(255,255,255,.12) !important; border-color: rgba(255,255,255,.28) !important; color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 20px 50px rgba(0,0,0,.22); }
+.h3-frame.on-dark .cl-k, .h3-frame.on-dark .cl-av em { color: rgba(255,255,255,.8); }
+.h3-frame.on-dark .cl-pill { background: #fff; color: var(--ink); }
+.h3-frame.on-dark .cl-av i { box-shadow: 0 0 0 2px rgba(255,255,255,.3) !important; }
+/* «Что мешает»: спокойнее кегли, больше воздуха, «Сейчас / Сделаем» пилюлями */
+.find { column-gap: clamp(2rem, 1rem + 2.5vw, 4.5rem) !important; margin-top: clamp(3rem, 2rem + 2.5vw, 5rem); }
+.find div { padding: clamp(1.5rem, 1.2rem + .8vw, 2.25rem) 0 !important; }
+.find b { font-size: clamp(1.25rem, 1.05rem + .5vw, 1.625rem) !important; letter-spacing: -.02em !important; line-height: 1.2 !important; }
+.find p { font-size: var(--fs-meta); line-height: 1.55; max-width: 34ch; color: var(--grey); }
+.find p + p { margin-top: 1.25rem !important; color: var(--ink); }
+.find p em { display: table !important; padding: .25rem .75rem; margin-bottom: .6rem !important; border-radius: 999px; border: 1px solid var(--mist); color: var(--grey) !important; font-size: var(--fs-meta); line-height: 1.3; }
+.find p + p em { background: var(--ink); border-color: var(--ink); color: #fff !important; }
+@media (min-width: 1440px) { .find div { row-gap: .75rem !important; } }
+/* персональные идеи: светлая подложка, фото в своей рамке */
+.band-light { background: var(--stone); color: var(--ink); height: auto !important; gap: var(--gap); padding: clamp(.75rem, 1.2vw, 1.25rem); }
+.band-light .band-t h2 .g { color: var(--grey); }
+.band-light .kicker { border-color: var(--mist) !important; }
+.band-light .band-ix { border-color: var(--mist); }
+.band-light .band-ix a { border-color: var(--mist); }
+.band-light .band-ix .n, .band-light .band-ix small { color: var(--grey); }
+.band-light .band-ph { position: relative; border-radius: var(--r-lg); overflow: hidden; height: auto; aspect-ratio: 3 / 4; }
+.band-light .band-ph img { position: static !important; width: 100% !important; height: 100% !important; object-fit: cover; -webkit-mask-image: none !important; mask-image: none !important; }
+@media (min-width: 900px) { .band-light { grid-template-columns: minmax(0, 1fr) minmax(18rem, 34rem); } }
+/* идея 01 */
+.qz { align-items: stretch; }
+.qz-ask { display: flex; flex-direction: column; gap: 1.5rem; }
+.qz-get { list-style: none; margin: auto 0 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--mist); counter-reset: g; }
+.qz-get li { counter-increment: g; display: grid; grid-template-columns: 2.5rem 1fr; gap: .1rem 1rem; padding: .9rem 0; border-bottom: 1px solid var(--mist); color: var(--grey); }
+.qz-get li::before { content: "0" counter(g); grid-row: span 2; font-size: var(--fs-meta); color: var(--grey); padding-top: .15rem; }
+.qz-get b { font-weight: 500; color: var(--ink); }
+@media (min-width: 1100px) { .qz-get { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); } .qz-get li { grid-template-columns: 1fr; border-bottom: 0; } .qz-get li::before { grid-row: auto; } }
+.qz-who { display: flex; align-items: center; gap: .875rem; }
+.qz-who img { width: 3rem; height: 3rem; border-radius: 50%; object-fit: cover; display: block; }
+.qz-who span { font-size: var(--fs-meta); color: var(--grey); line-height: 1.3; }
+.qz-who b { display: block; font-weight: 500; color: var(--ink); font-size: var(--fs-body); }
+.qz-glass { display: grid; gap: 1.25rem; }
+.fx-row { grid-template-columns: minmax(8.5rem, 10rem) minmax(0, 1fr); }
+.fx-row .nm small { max-width: 16ch; }
+.qz-stopcard { grid-column: 1 / -1; background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: var(--pad); border-top: 0 !important; gap: 1.25rem 3rem; }
+.qz-stopcard h4 { font-size: var(--fs-h3); }
+@media (min-width: 1100px) {
+  .qz-stopcard { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; }
+  .qz-stopcard h4 { grid-column: 1 / -1; }
+  .qz-stopcard ul { grid-column: 1; grid-row: 2 / span 3; }
+  .qz-stopcard .qz-plus, .qz-stopcard .voice, .qz-stopcard .qz-cta { grid-column: 2; }
+}
+/* зеркало: воздух между списком и кадром, текст спокойнее */
+@media (min-width: 1100px) { .mir { grid-template-columns: minmax(0, 1.2fr) minmax(0, .85fr); column-gap: clamp(3rem, 2rem + 4vw, 8rem); } }
+.mir-it .q { font-size: clamp(1.125rem, 1rem + .45vw, 1.5rem); }
+.mir-it > button { padding: 1.1rem 0; }
+.mir-it dl { margin-left: 3.5rem; }
+/* идея 03: обложки с фото */
+.sto-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; z-index: -1; }
+.sto-cover { isolation: isolate; }
+.sto-cover::after { content: ""; position: absolute; inset: 45% 0 0; z-index: -1; background: linear-gradient(transparent, rgba(0,0,0,.55)); }
+.cp-ph { position: relative; padding: 0; min-height: 22rem; overflow: hidden; }
+.cp-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; }
+.cp-n { position: absolute; top: var(--pad); left: var(--pad); }
+.cp-av i:nth-child(1) { background: #8d8a84; } .cp-av i:nth-child(2) { background: #b9b5ad; } .cp-av i:nth-child(3) { background: #5f5d59; } .cp-av i:nth-child(4) { background: #d6d3cc; }
+.cp-av i { box-shadow: 0 0 0 2px var(--ink) !important; }
+.cp-vid { position: relative; padding: .5rem 1.25rem .5rem .5rem; overflow: hidden; }
+.cp-vid img { width: 4.5rem; height: 3rem; object-fit: cover; border-radius: 10px; display: block; }
+.cp-vid .play { position: absolute; left: 2rem; top: 50%; transform: translate(-50%, -50%); width: 1.75rem; height: 1.75rem; }
+.cp-vid small { display: block; font-size: var(--fs-meta); color: rgba(255,255,255,.65); }
+/* идея 04: афиши */
+@media (min-width: 768px) { .pst { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .pst { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.po { background: #111; }
+.po-a img { object-position: 50% 20%; }
+.po-a .po-h { top: auto; bottom: 22cqw; color: #fff; font-size: clamp(2rem, 13cqw, 5rem); }
+.po-a .po-top { color: #2a2a2a; }
+.po-b img { position: absolute !important; inset: 0 !important; height: 100% !important; filter: none !important; object-position: 50% 50%; }
+.po-b { color: #fff !important; }
+.po-b .po-word { z-index: 1; top: 21cqw !important; } .po-b .po-line { z-index: 3; top: 62cqw !important; }
+.po-b .po-cut { position: absolute !important; inset: 0 !important; width: 100%; height: 100% !important; object-fit: cover; object-position: 50% 50%; z-index: 2 !important; filter: none !important; }
+.po-b .po-foot { z-index: 3; }
+.plan-note { margin: 0; font-size: var(--fs-meta); line-height: 1.5; color: rgba(255,255,255,.78); padding: .875rem 1rem; border-radius: var(--r-sm); background: var(--graphite); }
+.po-word { position: absolute; top: 4cqw; left: 0; right: 0; text-align: center; font-size: clamp(3.5rem, 30cqw, 11rem); font-weight: 500; letter-spacing: -.05em; line-height: 1; color: #fff; }
+.po-line { position: absolute; left: 8cqw; right: 8cqw; top: 46cqw; display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .5rem .75rem; background: rgba(8,8,8,.45); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 6px; font-size: clamp(1rem, 4.6cqw, 1.3rem); text-align: center; }
+.po-line i { width: 6px; height: 6px; border-radius: 50%; background: #fff; flex: none; }
+.po-foot { position: absolute; right: 6cqw; bottom: 6cqw; text-align: right; font-size: clamp(1rem, 4cqw, 1.2rem); line-height: 1.25; }
+.po-c img { object-position: 50% 60%; }
+.po-t { position: absolute; top: 9cqw; left: 9cqw; right: 9cqw; font-size: clamp(2rem, 11cqw, 4.25rem); font-weight: 500; letter-spacing: -.035em; line-height: 1; color: #eee; }
+.po-y { position: absolute; top: 34cqw; left: 9cqw; font-size: clamp(1rem, 4.5cqw, 1.3rem); color: #ddd; }
+.po-d .po-h { bottom: 19cqw; font-size: clamp(1.75rem, 10cqw, 4rem); text-transform: none; }
+.po-sub { position: absolute; left: 6cqw; right: 6cqw; bottom: 6cqw; font-size: clamp(1rem, 4cqw, 1.2rem); color: rgba(255,255,255,.85); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
 </head>
@@ -617,11 +720,12 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     <div class="h3-sign"><b>Олег Маврин, медиатор бизнес-споров</b><span>Арбитражный суд РТ · 15+ лет переговоров</span></div>
     <a class="h3-club" href="#club" aria-label="Клуб переговоров: завтрак 6 декабря, осталось 4 места из 12">
       <span class="cl-t"><span class="cl-k">Клуб переговоров · завтрак</span><b>6 декабря, 9:00</b><span class="cl-pill">Осталось 4 места из 12</span><span class="cl-av" aria-hidden="true"><i></i><i></i><i></i><em>+8 участников</em></span></span>
-      <img class="cl-ph" src="assets/oleg-portrait.jpg" width="440" height="560" alt="">
+      <img class="cl-ph" src="assets/gen/v5/club-crossed-light.png" width="1792" height="2400" alt="">
     </a>
     <a class="h3-cta" href="#price">Разобрать мою ситуацию <svg><use href="#ar"/></svg></a>
   </div>
 </header>
+<div class="hero-sw wrap" role="group" aria-label="Цвет стены на первом экране"><span>Цвет стены:</span><button type="button" aria-pressed="true" data-src="assets/gen/hero-arms-crossed-v1.png"><i style="background:#d6d7d8"></i>Светлый</button><button type="button" aria-pressed="false" data-src="assets/gen/v5/hero-indigo.png"><i style="background:#2d3a63"></i>Индиго</button><button type="button" aria-pressed="false" data-src="assets/gen/v5/hero-terracotta.png"><i style="background:#9a4630"></i>Терракота</button></div>
 <p class="hero-note">Концепт первого экрана. Фото сгенерировано по реальным фотографиям Олега, для сайта можно повторить в съёмке.</p>
 
 
@@ -634,7 +738,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     </div>
     <div class="ba rv">
       <figure><div class="fr"><img src="assets/before-site.jpg" width="2880" height="1800" alt="Первый экран olegmavrin.ru сейчас" loading="lazy"></div><figcaption><b>Сейчас</b><span>olegmavrin.ru</span></figcaption></figure>
-      <figure><div class="fr"><img src="assets/after-site.jpg" width="2708" height="1380" alt="Концепт первого экрана" loading="lazy"></div><figcaption><b>После</b><span>концепт первого экрана</span></figcaption></figure>
+      <figure><div class="fr"><img src="assets/after-site-v6.jpg" width="2712" height="1380" alt="Концепт первого экрана" loading="lazy"></div><figcaption><b>После</b><span>концепт первого экрана</span></figcaption></figure>
     </div>
     <div class="find rv"><div><span class="n">01</span><b>Первый экран про стаж</b><p><em>Сейчас</em>«Более 15 лет занимаюсь переговорами» вместо ответа «это решаемо».</p><p><em>Сделаем</em>Начнём с ситуации человека. Стаж и суд уйдут в блок доверия.</p></div><div><span class="n">02</span><b>Семь похожих программ</b><p><em>Сейчас</em>Отличаются только числом дней. Я сама не смогла выбрать.</p><p><em>Сделаем</em>Три флагманских курса с тарифами. Остальные добавим по их образцу.</p></div><div><span class="n">03</span><b>Регалии спрятаны</b><p><em>Сейчас</em>Арбитражный суд, ТПП, L’Oréal, Газпромнефть лежат в списках.</p><p><em>Сделаем</em>Логотипы, цифры и видеоотзывы рядом с его портретом.</p></div><div><span class="n">04</span><b>Нет пути к заявке</b><p><em>Сейчас</em>Одна кнопка «Записаться», пять каналов не связаны.</p><p><em>Сделаем</em>Анонимный разбор за 4 клика и голосовое от Олега.</p></div></div>
   </div>
@@ -655,7 +759,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
 </section>
 <section class="sec" id="ideas" style="padding-top:0">
   <div class="wrap">
-    <div class="band rv">
+    <div class="band band-light rv">
       <div class="band-t">
         <span class="kicker">Я подготовила для вас</span>
         <h2>Персональные идеи <span class="g">под вашу тематику</span></h2>
@@ -666,7 +770,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
           <li><a href="#club"><span class="n">04</span><span><b>Афиши открытых встреч</b><small>Постеры с Олегом вместо списка мероприятий</small></span><svg><use href="#ar"/></svg></a></li>
         </ol>
       </div>
-      <div class="band-ph"><img src="assets/eli/studio-hold.jpg" width="900" height="1600" alt="Элианора в студии с ретро-монитором" loading="lazy"></div>
+      <div class="band-ph"><img src="assets/eli/leather.png" width="1536" height="2048" alt="Элианора" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -678,14 +782,14 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Историю незнакомцу не расскажут. А анонимно ответить на четыре вопроса и увидеть цену конфликта готовы.</q></figcaption></figure>
     </div>
     <div class="qz rv">
-      <div class="qz-card qz-ask qz-photo"><img class="qz-bg" src="assets/gen/profile-light-v1.png" width="896" height="1120" alt="" loading="lazy"><span class="qz-tag">Олег слушает · без имени</span><div class="qz-glass">
+      <div class="qz-card qz-ask"><div class="qz-who"><img src="assets/oleg-ava.jpg" width="240" height="240" alt=""><span><b>Олег Маврин</b>задаёт 4 вопроса · анонимно</span></div><div class="qz-glass">
         <div class="qz-top"><div class="qz-steps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div><span class="qz-count" id="qzCount">Вопрос 1 из 4</span></div>
         <div id="qzBody" aria-live="polite"></div>
         <div class="qz-nav">
           <button class="qz-back" type="button" id="qzBack" hidden>← Назад</button>
           <span class="qz-safe"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Без имени, телефона и названия компании</span>
         </div>
-      </div></div>
+      </div><ol class="qz-get"><li><b>Цена конфликта</b>деньги, время, огласка в цифрах</li><li><b>Стоп-лист</b>три вещи, которые нельзя делать сейчас</li><li><b>Голосовое от Олега</b>минута по делу в Telegram</li></ol></div>
       <div class="qz-card qz-res" aria-live="polite">
         <span class="lbl">Цена конфликта · суд против медиации</span>
         <p class="qz-main" id="qzMain"><span class="muted">Ответьте на вопросы слева — шкалы заполнятся под вашу ситуацию.</span></p>
@@ -697,8 +801,8 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
           <div class="fx-row wait" data-f="ctrl"><div class="nm">Контроль<small>кто решает</small></div><div class="fx-bar"><b></b><span>—</span></div><div class="fx-bar m"><b></b><span>—</span></div></div>
           <div class="fx-row wait" data-f="rel"><div class="nm">Отношения<small>что останется</small></div><div class="fx-bar"><b></b><span>—</span></div><div class="fx-bar m"><b></b><span>—</span></div></div>
         </div>
-        <div class="stop" id="qzStop" hidden></div>
-      </div>
+        </div>
+      <div class="stop qz-stopcard" id="qzStop" hidden></div>
     </div>
     
     <p class="meta" style="margin-top:1rem">Демо для КП. Госпошлина по ст. 333.21 НК РФ, сроки и стоп-листы сверим с Олегом.</p>
@@ -709,7 +813,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     <div class="sec-head with-eli">
       <span class="kicker">Идея 02 · Узнавание</span>
       <h2>Зеркало: <span class="g">«Узнаёте себя?»</span></h2>
-      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Человек ищет не услугу, а свою ситуацию. Пусть узнает её в первой же строке.</q></figcaption></figure>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Человек ищет не услугу, а свою ситуацию. Он узнаёт её в первой же строке и остаётся.</q></figcaption></figure>
     </div>
     <div class="mir rv">
       <div><div class="mir-list"><div class="mir-it open"><button type="button" aria-expanded="true"><span class="n">01</span><span class="q">«Партнёр вывел деньги из общего бизнеса»</span><span class="pl"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
@@ -736,16 +840,16 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
         <div class="sto-chips" role="group" aria-label="Курсы"><button type="button" class="sto-chip" data-c="0" aria-pressed="true">01 · Трудные переговоры</button><button type="button" class="sto-chip" data-c="1" aria-pressed="false">02 · Переговоры о деньгах</button><button type="button" class="sto-chip" data-c="2" aria-pressed="false">03 · Конфликт в команде</button></div>
         <div class="sto" id="sto" aria-live="polite">
           <div class="sto-bars"><i><b></b></i><i><b></b></i><i><b></b></i></div>
-          <div class="sto-set" data-c="0" style="--c:#1F2A44">
-          <div class="sto-sl on"><span class="sto-k">Курс 01</span><b class="sto-h">Трудные переговоры</b><span class="sto-m">6 уроков · 3 часа</span></div>
+          <div class="sto-set" data-c="0" data-ph="assets/gen/v5/course-indigo.png" style="--c:#1F2A44">
+          <div class="sto-sl on sto-cover"><img src="assets/gen/v5/course-indigo.png" width="1792" height="2400" alt="" loading="lazy"><span class="sto-k">Курс 01</span><b class="sto-h">Трудные переговоры</b><span class="sto-m">6 уроков · 3 часа</span></div>
           <div class="sto-sl"><span class="sto-k">Что вы сможете</span><ul><li>Готовиться к встрече за вечер</li><li>Держать паузу под давлением</li><li>Выходить с планом Б</li></ul></div>
           <div class="sto-sl"><span class="sto-k">Формат</span><ul class="sto-tar"><li>Самостоятельно<small>записи уроков</small></li><li>С обратной связью<small>разбор домашних заданий</small></li><li class="hot">Личное ведение<small>Олег рядом, 5 мест</small></li></ul></div>
-        </div><div class="sto-set" data-c="1" style="--c:#5C3226" hidden>
-          <div class="sto-sl on"><span class="sto-k">Курс 02</span><b class="sto-h">Переговоры о деньгах</b><span class="sto-m">5 уроков · 2,5 часа</span></div>
+        </div><div class="sto-set" data-c="1" data-ph="assets/gen/v5/course-terracotta.png" style="--c:#5C3226" hidden>
+          <div class="sto-sl on sto-cover"><img src="assets/gen/v5/course-terracotta.png" width="1792" height="2400" alt="" loading="lazy"><span class="sto-k">Курс 02</span><b class="sto-h">Переговоры о деньгах</b><span class="sto-m">5 уроков · 2,5 часа</span></div>
           <div class="sto-sl"><span class="sto-k">Что вы сможете</span><ul><li>Называть цену первым</li><li>Отвечать на «дорого»</li><li>Торговаться без уступок себе в убыток</li></ul></div>
           <div class="sto-sl"><span class="sto-k">Формат</span><ul class="sto-tar"><li>Самостоятельно<small>записи уроков</small></li><li>С обратной связью<small>разбор домашних заданий</small></li><li class="hot">Личное ведение<small>Олег рядом, 5 мест</small></li></ul></div>
-        </div><div class="sto-set" data-c="2" style="--c:#2D3A33" hidden>
-          <div class="sto-sl on"><span class="sto-k">Курс 03</span><b class="sto-h">Конфликт в команде</b><span class="sto-m">7 уроков · 4 часа</span></div>
+        </div><div class="sto-set" data-c="2" data-ph="assets/gen/v5/course-olive.png" style="--c:#2D3A33" hidden>
+          <div class="sto-sl on sto-cover"><img src="assets/gen/v5/course-olive.png" width="1792" height="2400" alt="" loading="lazy"><span class="sto-k">Курс 03</span><b class="sto-h">Конфликт в команде</b><span class="sto-m">7 уроков · 4 часа</span></div>
           <div class="sto-sl"><span class="sto-k">Что вы сможете</span><ul><li>Увидеть конфликт до взрыва</li><li>Развести людей по зонам</li><li>Провести разговор один на один</li></ul></div>
           <div class="sto-sl"><span class="sto-k">Формат</span><ul class="sto-tar"><li>Самостоятельно<small>записи уроков</small></li><li>С обратной связью<small>разбор домашних заданий</small></li><li class="hot">Личное ведение<small>Олег рядом, 5 мест</small></li></ul></div>
         </div>
@@ -754,11 +858,11 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
         <p class="meta">Тапните по сторис справа или слева. Названия и уроки примерные, сверим с Олегом.</p>
       </div>
       <div class="cp" id="cp" style="--c:#1F2A44">
-        <div class="cp-ph"><span class="cp-n" id="cpN">01</span><span class="meta">Кадр с Олегом в цвете курса</span></div>
+        <div class="cp-ph"><img id="cpImg" src="assets/gen/v5/course-indigo.png" width="1792" height="2400" alt="Олег Маврин" loading="lazy"><span class="cp-n" id="cpN">01</span></div>
         <div class="cp-tx">
           <p class="cp-q">Не теория и не слайды. Разбор ваших переговоров и план, с которым вы выйдете на встречу.</p>
-          <div class="cp-row"><span class="cp-av"><i></i><i></i><i></i></span><span>Выпускники курса</span></div>
-          <div class="cp-vid"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span>Фрагмент урока</span></div>
+          <div class="cp-row"><span class="cp-av"><i></i><i></i><i></i><i></i></span><span>Выпускники курса · цифру даст Олег</span></div>
+          <div class="cp-vid"><img src="assets/gen/v5/meta-hands.png" width="1856" height="2304" alt="" loading="lazy"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span>Фрагмент урока<small>1:20</small></span></div>
           <div class="cp-qt">«Цитата участника о результате»</div>
         </div>
         <b class="cp-big" id="cpT">Трудные переговоры</b>
@@ -775,11 +879,12 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Встречу клуба не надо продавать, её надо красиво показать. Афиша с лицом Олега работает лучше любого описания.</q></figcaption></figure>
     </div>
     <div class="pst rv">
-      <article class="po po-a"><img src="assets/oleg-portrait.jpg" width="440" height="560" alt="" loading="lazy"><span class="po-top">Клуб переговоров · завтрак</span><b class="po-h">Переговоры<br>о деньгах</b><span class="po-pill">6 декабря · 4 места</span></article>
-      <article class="po po-b"><div class="po-head"><span>Клуб переговоров</span><b>Как сказать «нет» партнёру</b><span>13 декабря · 9:00</span></div><img src="assets/gen/hero-arms-crossed-v1.png" width="2752" height="1536" alt="" loading="lazy"></article>
-      <article class="po po-c"><span class="po-top">Клуб переговоров · 20 декабря</span><b class="po-score">1 : 1</b><b class="po-h">Конфликт наследников:<br>сохранить семью и бизнес</b><span class="po-pill">Записаться</span></article>
+      <article class="po po-a"><img src="assets/gen/v5/poster-laugh.png" width="1856" height="2304" alt="" loading="lazy"><span class="po-top">Клуб переговоров Олега Маврина</span><b class="po-h">Переговоры<br>о деньгах</b><span class="po-pill">6 декабря · завтрак · 4 места</span></article>
+      <article class="po po-b"><img src="assets/gen/v5/poster-stool-navy.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-word">Пауза</b><span class="po-line"><i></i>Как сказать «нет» партнёру<i></i></span><img class="po-cut" src="assets/gen/v5/poster-stool-cut.png" width="1856" height="2304" alt="" loading="lazy"><span class="po-foot">13 декабря<br>Клуб переговоров</span></article>
+      <article class="po po-c"><img src="assets/gen/v5/meta-chess.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-t">Конфликт<br>наследников</b><span class="po-y">20.12</span></article>
+      <article class="po po-d"><img src="assets/gen/v5/poster-over-shoulder.png" width="1856" height="2304" alt="" loading="lazy"><b class="po-h">Через плечо<br>переговорщика</b><span class="po-sub">Разбор реальной встречи · 27 декабря</span></article>
     </div>
-    <p class="meta" style="margin-top:1rem">Черновики в стиле ваших рефов. Финальные постеры сгенерирую с лицом Олега: имя поверх портрета, слово за головой, метафора в растре.</p>
+    <p class="meta" style="margin-top:1rem">Кадры сгенерированы по фото Олега в стиле первого экрана. Для сайта их можно повторить в съёмке.</p>
   </div>
 </section>
 <section class="sec" id="path" style="padding-top:0">
@@ -837,12 +942,12 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       <p class="lead">В каждый входят смысл и тексты, дизайн для всех экранов, самописный код и анимация.</p>
     </div>
     <div class="prices rv">
-      <div class="seg" id="seg" role="group" aria-label="Способ оплаты"><button type="button" data-m="once" aria-pressed="true">Сразу</button><button type="button" data-m="two" aria-pressed="false">Два платежа</button></div>
+      <div class="seg" id="seg" role="group" aria-label="Способ оплаты"><button type="button" data-m="once" aria-pressed="true">Сразу</button><button type="button" data-m="two" aria-pressed="false">В рассрочку</button></div>
       <div class="plans" id="plans">
         <div class="plan" data-now="89000"><div class="t"><b>01</b><span>Одностраничный сайт</span></div><div class="pr"><b>89&nbsp;000&nbsp;₽</b><small>3–4 недели</small></div>
           <ul><li>Первый экран и до 10 блоков<span>входит</span></li><li>Разбор за 4 клика<span>входит</span></li><li>Зеркало «Узнаёте себя?»<span>входит</span></li><li>Адаптив до 4K<span>входит</span></li></ul><div class="ft"><span>Для старта</span><b>одна страница</b></div></div>
-        <div class="plan dark" data-now="139000"><div class="t"><b>02</b><span>Корпоративный сайт</span><span class="rec">рекомендую</span></div><div class="pr"><b>139&nbsp;000&nbsp;₽</b><small>5–6 недель</small></div>
-          <ul><li>Всё из варианта 01<span>входит</span></li><li>Лендинг под каждую программу<span>медиация, 3 курса</span></li><li>Клуб с афишами встреч<span>входит</span></li><li>Истории клиентов<span>входит</span></li></ul><div class="ft"><span>Для роста</span><b>все программы</b></div></div>
+        <div class="plan dark" data-now="149000"><div class="t"><b>02</b><span>Главная + 3 сайта курсов</span><span class="rec">рекомендую</span></div><div class="pr"><b>149&nbsp;000&nbsp;₽</b><small>5–6 недель</small></div><p class="plan-note">Это цена за 4 полноценных сайта: главная и отдельный сайт под каждый из трёх курсов. Можно в рассрочку.</p>
+          <ul><li>Всё из варианта 01<span>входит</span></li><li>Сайт под каждый курс<span>3 сайта</span></li><li>Клуб с афишами встреч<span>входит</span></li><li>Истории клиентов<span>входит</span></li></ul><div class="ft"><span>Для роста</span><b>все программы</b></div></div>
         <div class="plan" data-now="189000"><div class="t"><b>03</b><span>Сайт + соцсети</span></div><div class="pr"><b>189&nbsp;000&nbsp;₽</b><small>7–8 недель</small></div>
           <ul><li>Всё из варианта 02<span>входит</span></li><li>Упаковка Telegram, MAX, Instagram<span>в одном стиле</span></li><li>Шаблоны постов и обложек<span>входит</span></li><li>Разбор за 4 клика в Telegram-боте<span>входит</span></li></ul><div class="ft"><span>Под ключ</span><b>сайт и каналы</b></div></div>
       </div>
@@ -866,7 +971,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     <div><a class="pair light" href="#top"><span class="l">Ответить в переписке</span><span class="i"><svg><use href="#ar"/></svg></span></a></div>
   </div>
 </section>
-<footer class="wrap"><span>Подготовила Элианора, 19.11.2026</span><span>Прошлые версии: <a href="index-v1-do.html">1</a>, <a href="index-v2.html">2</a>, <a href="index-v3.html">3</a>, <a href="index-v4.html">4</a>, <a href="index-v5.html">5</a></span></footer>
+<footer class="wrap"><span>Подготовила Элианора, 19.11.2026</span><span>Прошлые версии: <a href="index-v1-do.html">1</a>, <a href="index-v2.html">2</a>, <a href="index-v3.html">3</a>, <a href="index-v4.html">4</a>, <a href="index-v5.html">5</a>, <a href="index-v6.html">6</a></span></footer>
 <script>
 (() => {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -1004,7 +1109,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       $$('.sto-sl', sets[c]).forEach((x, i) => x.classList.toggle('on', i === k));
       bars.forEach((b, i) => { b.classList.remove('run'); b.classList.toggle('done', i < k); void b.offsetWidth; if (i === k && !RM) b.classList.add('run'); });
       chips.forEach((x, i) => x.setAttribute('aria-pressed', i === c));
-      const cp = $('#cp'); cp.style.setProperty('--c', COL[c]); $('#cpN').textContent = '0' + (c + 1); $('#cpT').textContent = TIT[c];
+      const cp = $('#cp'); cp.style.setProperty('--c', COL[c]); const im = $('#cpImg'); if (im && sets[c].dataset.ph) im.src = sets[c].dataset.ph; $('#cpN').textContent = '0' + (c + 1); $('#cpT').textContent = TIT[c];
       clearTimeout(tm); if (!RM) tm = setTimeout(next, DUR);
     };
     const next = () => { if (k < 2) k++; else { k = 0; c = (c + 1) % sets.length; } show(); };
@@ -1014,6 +1119,11 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(); io.disconnect(); } }), { threshold: .3 });
     io.observe(box);
   })();
+  /* варианты цвета стены на первом экране */
+  $$('.hero-sw button').forEach(b => b.addEventListener('click', () => {
+    $$('.hero-sw button').forEach(x => x.setAttribute('aria-pressed', x === b)); $('.h3-img').src = b.dataset.src;
+    $('.h3-frame').classList.toggle('on-dark', b.dataset.src.indexOf('hero-arms') < 0);
+  }));
   /* видео играют сами */
   $$('video').forEach(v => { v.muted = true; v.playsInline = true; const pl = () => v.play().catch(() => {}); pl(); v.addEventListener('loadeddata', pl); });
 
