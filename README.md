@@ -9,4 +9,5 @@
 - Вариант 5: index-v5.html
 - Вариант 6: index-v6.html
 - Вариант 7: index-v7.html
-- Вариант 8: index-v8.html (актуальный, он же index.html)
+- Вариант 8: index-v8.html
+- Вариант 9: index-v9.html (актуальный, он же index.html)
