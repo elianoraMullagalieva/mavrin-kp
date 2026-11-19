@@ -60,14 +60,14 @@ body { background: #f2f2f0; color: var(--ink); font-family: "Medeo Sans", "Helve
   const N = S.length, step = 360 / N;
   let W, H, R;
   const size = () => {
-    W = Math.min(Math.max(innerWidth * .34, 240), 620); H = W * .62;
+    W = Math.min(Math.max(innerWidth * (innerWidth < 900 ? .6 : .34), 240), 620); H = W * .62;
     R = Math.round((W / 2) / Math.tan(Math.PI / N)) + 40;
     ring.style.setProperty('--w', W + 'px'); ring.style.setProperty('--h', H + 'px');
     [...ring.children].forEach((c, i) => c.style.transform = `rotateY(${i * step}deg) translateZ(${R}px)`);
   };
   S.forEach(([f, t, d], i) => {
     const c = document.createElement('div'); c.className = 'card';
-    const im = new Image(); im.src = B + f; im.alt = t; im.decoding = 'async'; im.loading = i < 4 ? 'eager' : 'lazy';
+    const im = new Image(); im.src = B + f; im.alt = t; im.decoding = 'async'; im.loading = 'eager';
     c.append(im); ring.append(c); dots.append(document.createElement('i'));
   });
   size(); addEventListener('resize', size);
