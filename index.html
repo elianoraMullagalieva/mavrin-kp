@@ -72,7 +72,8 @@ p { margin: 0; max-width: 65ch; text-wrap: pretty; }
 /* шапка КП */
 .topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1.5rem; padding-block: 1rem; }
 .brand { display: flex; align-items: center; gap: .75rem; font-size: var(--fs-meta); line-height: 1.25; }
-.brand .mk { width: 2.375rem; height: 2.375rem; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 500; font-size: .8125rem; }
+.brand .mk { width: 2.75rem; height: 2.75rem; border-radius: 50%; overflow: hidden; background: #182120; flex: none; }
+.brand .mk img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .brand b { font-weight: 500; display: block; color: var(--ink); }
 .brand span { color: var(--grey); }
 .topnav { display: flex; gap: 1.5rem; font-size: var(--fs-meta); color: var(--grey); }
@@ -124,7 +125,23 @@ p { margin: 0; max-width: 65ch; text-wrap: pretty; }
 
 
 
-@media (min-width: 1100px) and (max-width: 1599px) { .h3-sign span { display: none; } .h3-club small { display: none; } }
+
+/* v5: имя в две строки, плашка клуба как в Volta */
+.h3-sign { bottom: clamp(5.5rem, 8.5cqw, 11rem) !important; gap: .5rem !important; }
+.h3-sign b { font-weight: 500; }
+.h3-logo { color: inherit; transition: opacity .3s; } .h3-logo:hover { opacity: .65; }
+.h3-club { display: grid !important; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(.75rem, 1cqw, 1.25rem) !important; align-items: stretch; width: clamp(20rem, 28cqw, 36rem) !important; padding: clamp(.6rem, .8cqw, .9rem) !important; border-radius: 22px !important; color: var(--ink); transition: transform .5s var(--ease); }
+.h3-club:hover { transform: translateY(-3px); }
+.cl-t { display: grid; align-content: space-between; gap: .5rem; padding: .35rem .25rem .25rem .5rem; }
+.cl-k { font-size: clamp(1rem, .95cqw, 1.2rem); color: #2a2a2a; }
+.cl-t b { font-weight: 500; font-size: clamp(1.25rem, 1.5cqw, 2rem); letter-spacing: -.02em; line-height: 1.1; }
+.cl-pill { justify-self: start; padding: .4rem .85rem; border-radius: 999px; background: var(--ink); color: #fff; font-size: clamp(1rem, .9cqw, 1.125rem); line-height: 1.2; }
+.cl-av { display: flex; align-items: center; }
+.cl-av i { width: 1.75rem; height: 1.75rem; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--ink); background: rgba(255,255,255,.5); margin-right: -.55rem; }
+.cl-av em { font-style: normal; margin-left: 1rem; font-size: clamp(1rem, .9cqw, 1.125rem); color: #2a2a2a; }
+.cl-ph { width: clamp(6rem, 9cqw, 11rem); height: 100%; min-height: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: 15px; display: block; }
+@media (max-width: 1099px) { .h3-club { width: 100% !important; } .h3-sign { gap: .35rem !important; } }
+
 /* телефон и планшет: кадр 4:5, слова над фото, подпись и клуб под ним */
 @media (max-width: 1099px) {
   .h3-frame { aspect-ratio: auto; display: flex; flex-direction: column; background: transparent; border-radius: 0; overflow: visible; }
@@ -479,6 +496,98 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
 .final .fph { border-radius: var(--r-sm); overflow: hidden; max-width: 30rem; }
 .final .fph img { width: 100%; height: auto; display: block; }
 @media (min-width: 1100px) { .final.with-ph { grid-template-columns: minmax(0, 1fr) minmax(18rem, 30rem); column-gap: clamp(2rem, 5vw, 6rem); } .final.with-ph .fph { grid-column: 2; grid-row: 1 / span 4; align-self: stretch; } }
+
+/* v5: «Что мешает» — пункты на одной линии, «сейчас / сделаем» */
+.find p em { display: block; font-style: normal; font-size: var(--fs-meta); color: var(--ink); margin-bottom: .15rem; }
+.find p + p { margin-top: .75rem; }
+@media (min-width: 1440px) { .find { grid-template-rows: repeat(4, auto); } .find div { grid-row: span 4; grid-template-rows: subgrid; row-gap: .5rem; } }
+/* для кого */
+.aud { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--mist); }
+@media (min-width: 900px) { .aud { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); } }
+.aud a { display: grid; gap: .5rem; align-content: start; padding: 1.5rem 0; border-bottom: 1px solid var(--mist); }
+@media (min-width: 900px) { .aud a { border-bottom: 0; } }
+.aud .who { font-size: var(--fs-meta); color: var(--grey); }
+.aud b { font-size: var(--fs-h3); font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
+.aud p { margin: 0; color: var(--grey); max-width: 34ch; }
+.aud .go { display: inline-flex; align-items: center; gap: .5rem; margin-top: .5rem; font-weight: 500; }
+.aud .go svg { width: .75rem; height: .75rem; transition: transform .4s var(--ease); }
+.aud a:hover .go svg { transform: rotate(45deg); }
+/* идея 01: вопрос на стекле поверх кадра */
+.qz-photo { position: relative; overflow: hidden; background: #cfcfcd; padding: clamp(17rem, 9rem + 21vw, 30rem) clamp(.75rem, 1.2vw, 1.25rem) clamp(.75rem, 1.2vw, 1.25rem); }
+.qz-bg { position: absolute; top: 0; left: 0; width: 100%; height: auto; z-index: 0; }
+.qz-tag { position: absolute; z-index: 1; top: clamp(.9rem, 1.4vw, 1.4rem); left: clamp(.9rem, 1.4vw, 1.4rem); padding: .45rem .9rem; border-radius: 999px; background: rgba(255,255,255,.72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); font-size: var(--fs-meta); }
+.qz-glass { position: relative; z-index: 1; display: grid; gap: 1.25rem; padding: var(--pad); border-radius: var(--r-lg); background: rgba(255,255,255,.78); border: 1px solid rgba(255,255,255,.75); -webkit-backdrop-filter: blur(22px) saturate(1.1); backdrop-filter: blur(22px) saturate(1.1); }
+.qz-photo .qz-opt { background: rgba(255,255,255,.85); }
+.qz-res .voice { margin-top: .25rem; max-width: 26rem; }
+/* идея 03: сторис + страница курса */
+.prod { display: grid; gap: var(--gap); align-items: start; }
+@media (min-width: 1100px) { .prod { grid-template-columns: minmax(18rem, 26rem) minmax(0, 1fr); } }
+.sto-wrap { display: grid; gap: 1rem; }
+.sto-chips { display: flex; flex-wrap: wrap; gap: .375rem; }
+.sto-chip { border: 0; cursor: pointer; padding: .55rem 1rem; border-radius: 999px; background: var(--stone); color: var(--ink); font: inherit; font-size: var(--fs-meta); transition: background .3s, color .3s; }
+.sto-chip[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.sto { position: relative; aspect-ratio: 9 / 16; max-height: 44rem; border-radius: var(--r-lg); overflow: hidden; background: var(--ink); color: #fff; }
+.sto-bars { position: absolute; z-index: 3; left: .75rem; right: .75rem; top: .75rem; display: flex; gap: .3rem; }
+.sto-bars i { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.3); overflow: hidden; }
+.sto-bars b { display: block; height: 100%; width: 100%; background: #fff; transform-origin: 0 50%; transform: scaleX(0); }
+.sto-bars i.done b { transform: scaleX(1); }
+.sto-bars i.run b { animation: stoRun var(--dur, 4.5s) linear forwards; }
+@keyframes stoRun { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.sto-set { position: absolute; inset: 0; background: var(--c); }
+.sto-sl { position: absolute; inset: 0; padding: 2.5rem 1.5rem 1.75rem; display: grid; align-content: space-between; gap: 1rem; opacity: 0; transform: scale(1.03); transition: opacity .5s var(--ease), transform .7s var(--ease); }
+.sto-sl.on { opacity: 1; transform: none; }
+.sto-k { font-size: var(--fs-meta); color: rgba(255,255,255,.75); }
+.sto-h { font-size: clamp(2.25rem, 1.6rem + 2vw, 3.5rem); font-weight: 500; letter-spacing: -.035em; line-height: .98; align-self: end; }
+.sto-m { font-size: var(--fs-meta); color: rgba(255,255,255,.75); }
+.sto-sl ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; align-self: end; }
+.sto-sl li { font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -.015em; padding-top: .75rem; border-top: 1px solid rgba(255,255,255,.2); }
+.sto-tar li { display: grid; gap: .2rem; } .sto-tar small { font-size: var(--fs-meta); color: rgba(255,255,255,.7); }
+.sto-tar li.hot { padding: .875rem 1rem; border-radius: var(--r-sm); background: #fff; color: var(--ink); border-top: 0; } .sto-tar li.hot small { color: var(--grey); }
+.sto-tap { position: absolute; z-index: 2; top: 0; bottom: 0; width: 40%; border: 0; background: transparent; cursor: pointer; }
+.sto-tap.l { left: 0; } .sto-tap.r { right: 0; width: 60%; }
+.cp { position: relative; border-radius: var(--r-lg); overflow: hidden; display: grid; grid-template-columns: 1fr; background: var(--ink); color: #fff; min-height: clamp(30rem, 24rem + 14vw, 44rem); container-type: inline-size; }
+@media (min-width: 700px) { .cp { grid-template-columns: 1fr 1fr; } }
+.cp-ph { background: var(--c); transition: background .6s var(--ease); display: grid; align-content: start; gap: .75rem; padding: var(--pad); min-height: 16rem; }
+.cp-ph .meta { color: rgba(255,255,255,.7); }
+.cp-n { font-size: clamp(3rem, 2rem + 3vw, 5rem); font-weight: 500; letter-spacing: -.04em; line-height: 1; color: rgba(255,255,255,.9); }
+.cp-tx { padding: var(--pad); display: grid; gap: 1.25rem; align-content: start; padding-bottom: clamp(5rem, 14cqw, 11rem); }
+.cp-q { margin: 0; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -.015em; max-width: 24ch; }
+.cp-row { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,.8); font-size: var(--fs-meta); }
+.cp-av { display: flex; } .cp-av i { width: 2rem; height: 2rem; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.8); margin-right: -.6rem; background: var(--graphite); }
+.cp-vid { display: flex; align-items: center; gap: .875rem; justify-self: start; padding: .5rem 1.25rem .5rem .5rem; border-radius: 999px; background: var(--graphite); font-size: var(--fs-meta); }
+.cp-vid .play { width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; } .cp-vid svg { width: .8rem; height: .8rem; }
+.cp-qt { color: rgba(255,255,255,.75); }
+.cp-big { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(.75rem, 2cqw, 1.5rem); font-size: clamp(2.25rem, 8.5cqw, 7rem); font-weight: 400; letter-spacing: -.04em; line-height: .95; color: #fff; pointer-events: none; }
+.ref-strip { margin: var(--gap) 0 0; display: grid; gap: .75rem; }
+.ref-strip .fr { padding: clamp(.75rem, 1.5vw, 1.25rem); }
+.ref-strip video { width: 100%; height: auto; border-radius: var(--r-sm); display: block; }
+@media (min-width: 1100px) { .ref-strip { grid-template-columns: minmax(0, 1fr) minmax(16rem, 26rem); align-items: end; } }
+/* идея 04: афиши */
+.pst { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+@media (min-width: 768px) { .pst { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .pst { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.po { position: relative; aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; color: #fff; isolation: isolate; container-type: inline-size; transition: transform .6s var(--ease); }
+.po:hover { transform: translateY(-4px); }
+.po img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.po-top { position: absolute; top: 6cqw; left: 6cqw; right: 6cqw; font-size: clamp(1rem, 4cqw, 1.25rem); }
+.po-h { position: absolute; left: 6cqw; right: 6cqw; bottom: 20cqw; font-size: clamp(2rem, 11cqw, 4.5rem); font-weight: 500; letter-spacing: -.04em; line-height: .95; }
+.po-pill { position: absolute; left: 6cqw; bottom: 6cqw; padding: .5rem 1rem; border-radius: 999px; background: #fff; color: var(--ink); font-size: clamp(1rem, 4cqw, 1.2rem); }
+.po-a .po-h { top: 15cqw; bottom: auto; }
+.po-a img { object-position: 50% 30%; filter: contrast(1.02) saturate(.85); }
+.po-a::after { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(8,8,8,.18); }
+.po-b { background: #ececea; color: var(--ink); display: grid; grid-template-rows: auto 1fr; }
+.po-b .po-head { padding: 6cqw 6cqw 4cqw; display: grid; gap: 2cqw; text-align: center; justify-items: center; }
+.po-b .po-head span { font-size: clamp(1rem, 4cqw, 1.2rem); color: var(--grey); }
+.po-b .po-head b { font-size: clamp(1.75rem, 9cqw, 3.5rem); font-weight: 500; letter-spacing: -.035em; line-height: 1; }
+.po-b img { position: relative; inset: auto; z-index: 0; height: 100%; object-position: 50% 25%; filter: grayscale(1) contrast(1.05); }
+.po-c { background-color: #121212; background-image: radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.2px); background-size: 7px 7px; }
+.po-score { position: absolute; top: 18cqw; left: 6cqw; font-size: clamp(5rem, 38cqw, 12rem); font-weight: 500; letter-spacing: -.05em; line-height: .85; color: #fff; font-variant-numeric: tabular-nums; }
+.po-c .po-pill { background: #c8442c; color: #fff; }
+/* финал: подпись под соглашением */
+.fsig { display: grid; gap: .5rem; justify-items: start; max-width: 22rem; }
+.fsig svg { width: 100%; height: auto; border-bottom: 1px solid var(--graphite); padding-bottom: .5rem; }
+.fsig path { fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fsig span { font-size: var(--fs-meta); color: rgba(255,255,255,.65); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
 </head>
@@ -488,7 +597,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ar" viewBox="0 0 12 12"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
 
 <div class="wrap topbar">
-  <div class="brand"><span class="mk">ОМ</span><div><b>Олег Маврин × Элианора</b><span>Коммерческое предложение, 19.11.2026</span></div></div>
+  <div class="brand"><span class="mk"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="Элианора"></span><div><b>Олег Маврин × Элианора</b><span>Коммерческое предложение, 19.11.2026</span></div></div>
   <nav class="topnav" aria-label="Разделы КП"><a href="#research">Исследование</a><a href="#ideas">Идеи</a><a href="#path">Блоки</a><a href="#refs">Стиль</a><a href="#marketing">Маркетинг</a><a href="#price">Цена</a></nav>
   <a class="pair " href="#price"><span class="l">Смотреть цены</span><span class="i"><svg><use href="#ar"/></svg></span></a>
 </div>
@@ -499,81 +608,62 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     <img class="h3-img" src="assets/gen/hero-arms-crossed-v1.png" width="2752" height="1536" alt="Олег Маврин, руки скрещены, светло-серая стена" fetchpriority="high">
     <div class="h3-nav">
       <nav aria-label="Пример меню сайта"><span>Медиация</span><span>Переговоры</span><span>Тренинги</span><span>Клуб</span></nav>
-      <div class="h3-logo"><i aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i>Клуб переговоров Олега Маврина</div>
+      <a class="h3-logo" href="https://t.me/negotiations_in_Russia" target="_blank" rel="noopener"><i aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></i>Клуб переговоров Олега Маврина</a>
       <span class="h3-tel">8 800 101 25 98</span>
     </div>
-    <div class="h3-w a"><span class="w">Пауза.</span><small>Сначала услышать, чего на самом деле хотят стороны</small></div>
-    <div class="h3-w b"><h1 class="w">Ход.</h1><small>Предложение, в котором выигрывают оба</small></div>
-    <div class="h3-w c"><span class="w">Сделка.</span><small>Соглашение без суда и потерь</small></div>
-    <div class="h3-sign">
-      <b>Олег Маврин</b>
-      <span>Медиатор Арбитражного суда РТ, доцент по конфликтологии, 15+ лет за столом переговоров</span>
-      <svg viewBox="0 0 240 70" aria-hidden="true"><path id="sig3" d="M8 50c10-22 22-38 30-36 7 2-4 30-12 40-5 6-7 2-3-5 7-13 20-23 26-21 5 2-2 18 3 19 5 1 10-11 15-11 4 0-1 11 3 11 5 0 9-9 14-9s1 10 5 10c6 0 11-14 17-14 5 0 1 11 6 11 5 0 8-7 13-7 4 0 1 7 5 7 6 0 12-10 18-10 4 0 2 6 7 6 7 0 17-5 28-8 14-4 28-5 42-3"/></svg>
-    </div>
-    <div class="h3-club">
-      <span class="t">Клуб переговоров<br>завтрак с экспертом</span>
-      <div class="row"><span class="big">06.12</span><span class="dots" aria-label="Осталось 4 места из 12"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i><i class="free"></i><i class="free"></i><i class="free"></i></span></div>
-      <small>Осталось 4 места из 12</small>
-    </div>
+    <div class="h3-w a"><span class="w">Пауза.</span><small>Остановить войну до суда</small></div>
+    <div class="h3-w b"><h1 class="w">Ход.</h1><small>Решение, под которым подпишутся оба</small></div>
+    <div class="h3-w c"><span class="w">Сделка.</span><small>Соглашение вместо иска</small></div>
+    <div class="h3-sign"><b>Олег Маврин, медиатор бизнес-споров</b><span>Арбитражный суд РТ · 15+ лет переговоров</span></div>
+    <a class="h3-club" href="#club" aria-label="Клуб переговоров: завтрак 6 декабря, осталось 4 места из 12">
+      <span class="cl-t"><span class="cl-k">Клуб переговоров · завтрак</span><b>6 декабря, 9:00</b><span class="cl-pill">Осталось 4 места из 12</span><span class="cl-av" aria-hidden="true"><i></i><i></i><i></i><em>+8 участников</em></span></span>
+      <img class="cl-ph" src="assets/oleg-portrait.jpg" width="440" height="560" alt="">
+    </a>
     <a class="h3-cta" href="#price">Разобрать мою ситуацию <svg><use href="#ar"/></svg></a>
   </div>
 </header>
 <p class="hero-note">Концепт первого экрана. Фото сгенерировано по реальным фотографиям Олега, для сайта можно повторить в съёмке.</p>
 
 
-<section class="sec" id="idea">
-  <div class="wrap">
-    <div class="sec-head with-eli">
-      <h2>Не афиша тренера, <span class="g">а кабинет, где собственник выдыхает</span></h2>
-      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Вместо семи похожих программ четыре понятных входа. Человек за секунду видит, какой из них про него.</q></figcaption></figure>
-    </div>
-    <div class="offer">
-      <article class="of dark rv"><div><span class="tag">01 · Главное</span><h3>Медиация бизнес-споров</h3><p>Партнёры, наследники, подрядчики. Соглашение без суда и огласки.</p></div>
-        <div class="vis v-med"><div><i>1</i><b>Разговор с вами наедине</b></div><div><i>2</i><b>Со второй стороной</b></div><div><i>3</i><b>Общая встреча и соглашение</b></div></div>
-        <span class="shot">Кадр: Олег за столом переговоров, стороны размыты по краям</span></article>
-      <article class="of rv"><div><span class="tag">02 · Для самостоятельных</span><h3>Три записанных курса</h3><p>Вместо семи программ. Каждый как сторис: обложка, результат, цена.</p></div>
-        <div class="vis v-cur"><span><em>01</em>Трудные переговоры</span><span><em>02</em>Переговоры о&nbsp;деньгах</span><span><em>03</em>Конфликт в&nbsp;команде</span></div>
-        <span class="shot">Кадр: руки, блокнот и чашка, свой тон у каждого курса</span></article>
-      <article class="of rv"><div><span class="tag">03 · Тёплый вход</span><h3>Открытые встречи клуба</h3><p>Завтрак с Олегом на 12 мест. Афиша, дата, запись в один клик.</p></div>
-        <div class="vis v-club"><span class="d">06.12</span><span class="dots" aria-label="Осталось 4 места из 12"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i><i class="free"></i><i class="free"></i><i class="free"></i></span><span class="tag">Осталось 4 места из 12</span></div>
-        <span class="shot">Кадр: длинный стол, утренний свет, разговор</span></article>
-      <article class="of rv"><div><span class="tag">04 · Заявки</span><h3>Анонимный разбор</h3><p>Четыре вопроса без имени, стоп-лист и голосовое от Олега.</p></div>
-        <div class="vis v-anon"><span>Конфликт<b>Партнёр</b></span><span>Сумма<b>5–30 млн ₽</b></span><span>Стадия<b>Через юристов</b></span><span>Голосовое от Олега<b>0:52</b></span></div>
-        <span class="shot">Кадр: телефон на столе переговорной, экран с голосовым</span></article>
-    </div>
-  </div>
-</section>
-<section class="sec" id="research" style="padding-top:0">
+<section class="sec" id="research">
   <div class="wrap">
     <div class="sec-head with-eli">
       <span class="kicker">Мини-исследование</span>
       <h2>Что сейчас <span class="g">мешает заявкам</span></h2>
-      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Уровень Олега выше, чем у большинства тренеров в стране. Сайт этого пока не показывает.</q></figcaption></figure>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Человек в конфликте приходит не за регалиями. Ему нужно услышать «это решаемо», а сайт начинает с «15 лет опыта».</q></figcaption></figure>
     </div>
     <div class="ba rv">
       <figure><div class="fr"><img src="assets/before-site.jpg" width="2880" height="1800" alt="Первый экран olegmavrin.ru сейчас" loading="lazy"></div><figcaption><b>Сейчас</b><span>olegmavrin.ru</span></figcaption></figure>
       <figure><div class="fr"><img src="assets/after-site.jpg" width="2708" height="1380" alt="Концепт первого экрана" loading="lazy"></div><figcaption><b>После</b><span>концепт первого экрана</span></figcaption></figure>
     </div>
-    <div class="find rv">
-      <div><span class="n">01</span><b>Первый экран про стаж</b><p>«Более 15 лет занимаюсь переговорами». Человеку с конфликтом нужен ответ «это решаемо».</p></div>
-      <div><span class="n">02</span><b>Семь похожих программ</b><p>«Основы», «Эффективные», «Сложные» различаются только числом дней. Человек не понимает, что выбрать.</p></div>
-      <div><span class="n">03</span><b>Регалии спрятаны</b><p>Арбитражный суд, ТПП, L’Oréal, Газпромнефть лежат в списках. Логотипов и отзывов нет.</p></div>
-      <div><span class="n">04</span><b>Нет пути к заявке</b><p>Одна кнопка «Записаться». В Telegram-клубе 53 подписчика, пять каналов не связаны.</p></div>
+    <div class="find rv"><div><span class="n">01</span><b>Первый экран про стаж</b><p><em>Сейчас</em>«Более 15 лет занимаюсь переговорами» вместо ответа «это решаемо».</p><p><em>Сделаем</em>Начнём с ситуации человека. Стаж и суд уйдут в блок доверия.</p></div><div><span class="n">02</span><b>Семь похожих программ</b><p><em>Сейчас</em>Отличаются только числом дней. Я сама не смогла выбрать.</p><p><em>Сделаем</em>Три флагманских курса с тарифами. Остальные добавим по их образцу.</p></div><div><span class="n">03</span><b>Регалии спрятаны</b><p><em>Сейчас</em>Арбитражный суд, ТПП, L’Oréal, Газпромнефть лежат в списках.</p><p><em>Сделаем</em>Логотипы, цифры и видеоотзывы рядом с его портретом.</p></div><div><span class="n">04</span><b>Нет пути к заявке</b><p><em>Сейчас</em>Одна кнопка «Записаться», пять каналов не связаны.</p><p><em>Сделаем</em>Анонимный разбор за 4 клика и голосовое от Олега.</p></div></div>
+  </div>
+</section>
+<section class="sec" id="idea" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head with-eli">
+      <span class="kicker">Для кого сайт</span>
+      <h2>Каждый сразу <span class="g">видит свой вход</span></h2>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>На сайт приходят трое: собственник в споре, тот, кто хочет научиться, и компания. У каждого должен быть свой вход.</q></figcaption></figure>
+    </div>
+    <div class="aud rv">
+      <a href="#quiz"><span class="who">Собственник в споре</span><b>Медиация бизнес-споров</b><p>Партнёры, наследники, подрядчики. Соглашение без суда и огласки.</p><span class="go">Вход: разбор за 4 клика <svg><use href="#ar"/></svg></span></a>
+      <a href="#products"><span class="who">Хочет научиться</span><b>Три флагманских курса</b><p>Записи, обратная связь или личное ведение Олега.</p><span class="go">Вход: курс как сторис <svg><use href="#ar"/></svg></span></a>
+      <a href="#path"><span class="who">Компания</span><b>Команды и большие проекты</b><p>Конфликты топ-команд, слияния, большие стройки.</p><span class="go">Вход: отдельная страница <svg><use href="#ar"/></svg></span></a>
     </div>
   </div>
 </section>
-
 <section class="sec" id="ideas" style="padding-top:0">
   <div class="wrap">
     <div class="band rv">
       <div class="band-t">
-        <span class="kicker">Дальше говорю я</span>
+        <span class="kicker">Я подготовила для вас</span>
         <h2>Персональные идеи <span class="g">под вашу тематику</span></h2>
-        <p class="lead">Не шаблон тренера, а три идеи под то, как человек в конфликте ищет помощь: тихо, анонимно, с вопросом «это решаемо?».</p>
         <ol class="band-ix">
-          <li><a href="#quiz"><span class="n">01</span><span><b>Разбор ситуации за 4 клика</b><small>Цена конфликта: суд против медиации</small></span><svg><use href="#ar"/></svg></a></li>
+          <li><a href="#quiz"><span class="n">01</span><span><b>Разбор ситуации за 4 клика</b><small>Можно анонимно: стоп-лист и голосовое от Олега</small></span><svg><use href="#ar"/></svg></a></li>
           <li><a href="#mirror"><span class="n">02</span><span><b>Зеркало «Узнаёте себя?»</b><small>Пять частых ситуаций его же словами</small></span><svg><use href="#ar"/></svg></a></li>
-          <li><a href="#anon"><span class="n">03</span><span><b>Анонимный разбор</b><small>Стоп-лист и голосовое от Олега</small></span><svg><use href="#ar"/></svg></a></li>
+          <li><a href="#products"><span class="n">03</span><span><b>Три флагманских курса</b><small>Сначала три, потом магазин по их образцу</small></span><svg><use href="#ar"/></svg></a></li>
+          <li><a href="#club"><span class="n">04</span><span><b>Афиши открытых встреч</b><small>Постеры с Олегом вместо списка мероприятий</small></span><svg><use href="#ar"/></svg></a></li>
         </ol>
       </div>
       <div class="band-ph"><img src="assets/eli/studio-hold.jpg" width="900" height="1600" alt="Элианора в студии с ретро-монитором" loading="lazy"></div>
@@ -583,20 +673,19 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
 <section class="sec" id="quiz" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head with-eli">
-      <span class="kicker">Идея 01 · Главный источник заявок</span>
+      <span class="kicker">Идея 01 · Можно анонимно</span>
       <h2>Разбор ситуации <span class="g">за&nbsp;4&nbsp;клика</span></h2>
-      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Историю незнакомцу не расскажут. А ответить на четыре вопроса и увидеть цену конфликта готовы. Попробуйте, демо живое.</q></figcaption></figure>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Историю незнакомцу не расскажут. А анонимно ответить на четыре вопроса и увидеть цену конфликта готовы.</q></figcaption></figure>
     </div>
     <div class="qz rv">
-      <div class="qz-card qz-ask">
+      <div class="qz-card qz-ask qz-photo"><img class="qz-bg" src="assets/gen/profile-light-v1.png" width="896" height="1120" alt="" loading="lazy"><span class="qz-tag">Олег слушает · без имени</span><div class="qz-glass">
         <div class="qz-top"><div class="qz-steps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div><span class="qz-count" id="qzCount">Вопрос 1 из 4</span></div>
         <div id="qzBody" aria-live="polite"></div>
         <div class="qz-nav">
           <button class="qz-back" type="button" id="qzBack" hidden>← Назад</button>
           <span class="qz-safe"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Без имени, телефона и названия компании</span>
         </div>
-      </div>
-
+      </div></div>
       <div class="qz-card qz-res" aria-live="polite">
         <span class="lbl">Цена конфликта · суд против медиации</span>
         <p class="qz-main" id="qzMain"><span class="muted">Ответьте на вопросы слева — шкалы заполнятся под вашу ситуацию.</span></p>
@@ -615,13 +704,12 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     <p class="meta" style="margin-top:1rem">Демо для КП. Госпошлина по ст. 333.21 НК РФ, сроки и стоп-листы сверим с Олегом.</p>
   </div>
 </section>
-
 <section class="sec" id="mirror" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head with-eli">
       <span class="kicker">Идея 02 · Узнавание</span>
       <h2>Зеркало: <span class="g">«Узнаёте себя?»</span></h2>
-      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Человек ищет не услугу, а свою беду. Пусть узнает её в первой же строке, а не в списке программ.</q></figcaption></figure>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Человек ищет не услугу, а свою ситуацию. Пусть узнает её в первой же строке.</q></figcaption></figure>
     </div>
     <div class="mir rv">
       <div><div class="mir-list"><div class="mir-it open"><button type="button" aria-expanded="true"><span class="n">01</span><span class="q">«Партнёр вывел деньги из общего бизнеса»</span><span class="pl"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
@@ -636,27 +724,62 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     <p class="meta" style="margin-top:1rem">Ситуации и истории здесь примерные. Для сайта возьмём реальные у Олега, без имён.</p>
   </div>
 </section>
-<section class="sec" id="anon" style="padding-top:0">
+<section class="sec" id="products" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head with-eli">
-      <span class="kicker">Идея 03 · Доверие</span>
-      <h2>Анонимный разбор: <span class="g">стоп-лист и голос Олега</span></h2>
-      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Живой голос Олега в ответ на анонимный вопрос снимает страх сильнее любого отзыва.</q></figcaption></figure>
+      <span class="kicker">Идея 03 · Фокус</span>
+      <h2>Три флагманских курса, <span class="g">потом магазин</span></h2>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Не выкладываем всё сразу. Упакуем три курса так, чтобы их хотелось купить, а остальные добавим по их образцу.</q></figcaption></figure>
     </div>
-    <div class="an rv">
-      <ol class="an-steps">
-        <li><span class="n">01</span><b>Ответы без имени</b><p>Четыре клика на сайте или в Telegram-боте. Ни телефона, ни компании.</p></li>
-        <li><span class="n">02</span><b>Стоп-лист сразу</b><p>Три вещи, которые нельзя делать прямо сейчас, под его ситуацию.</p></li>
-        <li><span class="n">03</span><b>Голосовое от Олега</b><p>Минута по делу: с чего начать и есть ли смысл в медиации.</p></li>
-        <li><span class="n">04</span><b>Встреча, если нужно</b><p>Человек сам решает, раскрываться ли дальше. Заявка приходит тёплой.</p></li>
-      </ol>
-      <div class="chat" aria-label="Пример переписки в Telegram">
-        <div class="chat-h"><span class="av">ОМ</span><div><b>Олег Маврин</b><small>разбор ситуации · анонимно</small></div></div>
-        <div class="msg me">Партнёр, 5–30 млн ₽, общаемся только через юристов. Важно сохранить бизнес.</div>
-        <div class="msg him"><b>Стоп-лист на эту неделю</b><ul><li>Не выводите деньги и активы</li><li>Не пишите партнёру на эмоциях</li><li>Не подавайте иск до первой встречи</li></ul></div>
-        <div class="msg him voice"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span class="wave"><i style="--h:0.35;--d:0"></i><i style="--h:0.6;--d:100"></i><i style="--h:0.9;--d:200"></i><i style="--h:0.5;--d:300"></i><i style="--h:0.75;--d:400"></i><i style="--h:1;--d:500"></i><i style="--h:0.55;--d:600"></i><i style="--h:0.8;--d:700"></i><i style="--h:0.4;--d:800"></i><i style="--h:0.7;--d:900"></i><i style="--h:0.95;--d:1000"></i><i style="--h:0.6;--d:1100"></i><i style="--h:0.45;--d:1200"></i><i style="--h:0.85;--d:1300"></i><i style="--h:0.65;--d:1400"></i><i style="--h:0.3;--d:1500"></i><i style="--h:0.75;--d:1600"></i><i style="--h:0.9;--d:1700"></i><i style="--h:0.5;--d:1800"></i><i style="--h:0.6;--d:1900"></i><i style="--h:0.35;--d:2000"></i><i style="--h:0.8;--d:2100"></i><i style="--h:0.55;--d:2200"></i><i style="--h:0.7;--d:2300"></i><i style="--h:0.4;--d:2400"></i><i style="--h:0.6;--d:2500"></i><i style="--h:0.3;--d:2600"></i></span><span>0:52</span></div>
+    <div class="prod rv">
+      <div class="sto-wrap">
+        <div class="sto-chips" role="group" aria-label="Курсы"><button type="button" class="sto-chip" data-c="0" aria-pressed="true">01 · Трудные переговоры</button><button type="button" class="sto-chip" data-c="1" aria-pressed="false">02 · Переговоры о деньгах</button><button type="button" class="sto-chip" data-c="2" aria-pressed="false">03 · Конфликт в команде</button></div>
+        <div class="sto" id="sto" aria-live="polite">
+          <div class="sto-bars"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+          <div class="sto-set" data-c="0" style="--c:#1F2A44">
+          <div class="sto-sl on"><span class="sto-k">Курс 01</span><b class="sto-h">Трудные переговоры</b><span class="sto-m">6 уроков · 3 часа</span></div>
+          <div class="sto-sl"><span class="sto-k">Что вы сможете</span><ul><li>Готовиться к встрече за вечер</li><li>Держать паузу под давлением</li><li>Выходить с планом Б</li></ul></div>
+          <div class="sto-sl"><span class="sto-k">Формат</span><ul class="sto-tar"><li>Самостоятельно<small>записи уроков</small></li><li>С обратной связью<small>разбор домашних заданий</small></li><li class="hot">Личное ведение<small>Олег рядом, 5 мест</small></li></ul></div>
+        </div><div class="sto-set" data-c="1" style="--c:#5C3226" hidden>
+          <div class="sto-sl on"><span class="sto-k">Курс 02</span><b class="sto-h">Переговоры о деньгах</b><span class="sto-m">5 уроков · 2,5 часа</span></div>
+          <div class="sto-sl"><span class="sto-k">Что вы сможете</span><ul><li>Называть цену первым</li><li>Отвечать на «дорого»</li><li>Торговаться без уступок себе в убыток</li></ul></div>
+          <div class="sto-sl"><span class="sto-k">Формат</span><ul class="sto-tar"><li>Самостоятельно<small>записи уроков</small></li><li>С обратной связью<small>разбор домашних заданий</small></li><li class="hot">Личное ведение<small>Олег рядом, 5 мест</small></li></ul></div>
+        </div><div class="sto-set" data-c="2" style="--c:#2D3A33" hidden>
+          <div class="sto-sl on"><span class="sto-k">Курс 03</span><b class="sto-h">Конфликт в команде</b><span class="sto-m">7 уроков · 4 часа</span></div>
+          <div class="sto-sl"><span class="sto-k">Что вы сможете</span><ul><li>Увидеть конфликт до взрыва</li><li>Развести людей по зонам</li><li>Провести разговор один на один</li></ul></div>
+          <div class="sto-sl"><span class="sto-k">Формат</span><ul class="sto-tar"><li>Самостоятельно<small>записи уроков</small></li><li>С обратной связью<small>разбор домашних заданий</small></li><li class="hot">Личное ведение<small>Олег рядом, 5 мест</small></li></ul></div>
+        </div>
+          <button class="sto-tap l" type="button" aria-label="Назад"></button><button class="sto-tap r" type="button" aria-label="Дальше"></button>
+        </div>
+        <p class="meta">Тапните по сторис справа или слева. Названия и уроки примерные, сверим с Олегом.</p>
+      </div>
+      <div class="cp" id="cp" style="--c:#1F2A44">
+        <div class="cp-ph"><span class="cp-n" id="cpN">01</span><span class="meta">Кадр с Олегом в цвете курса</span></div>
+        <div class="cp-tx">
+          <p class="cp-q">Не теория и не слайды. Разбор ваших переговоров и план, с которым вы выйдете на встречу.</p>
+          <div class="cp-row"><span class="cp-av"><i></i><i></i><i></i></span><span>Выпускники курса</span></div>
+          <div class="cp-vid"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span>Фрагмент урока</span></div>
+          <div class="cp-qt">«Цитата участника о результате»</div>
+        </div>
+        <b class="cp-big" id="cpT">Трудные переговоры</b>
       </div>
     </div>
+    <figure class="ref-strip rv"><div class="fr"><video src="assets/mood/noon-course.mp4" autoplay muted loop playsinline preload="metadata"></video></div><figcaption class="meta">Референс страницы курса: фото на половину, оффер, соцдоказательства, видео-фрагмент, большое название</figcaption></figure>
+  </div>
+</section>
+<section class="sec" id="club" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head with-eli">
+      <span class="kicker">Идея 04 · Клуб</span>
+      <h2>Афиши открытых встреч <span class="g">вместо списка мероприятий</span></h2>
+      <figure class="eli"><span class="ava"><img src="assets/eli-avatar-v4.jpg" width="400" height="400" alt="" loading="lazy"></span><figcaption><span>Элианора, дизайн и маркетинг</span><q>Встречу клуба не надо продавать, её надо красиво показать. Афиша с лицом Олега работает лучше любого описания.</q></figcaption></figure>
+    </div>
+    <div class="pst rv">
+      <article class="po po-a"><img src="assets/oleg-portrait.jpg" width="440" height="560" alt="" loading="lazy"><span class="po-top">Клуб переговоров · завтрак</span><b class="po-h">Переговоры<br>о деньгах</b><span class="po-pill">6 декабря · 4 места</span></article>
+      <article class="po po-b"><div class="po-head"><span>Клуб переговоров</span><b>Как сказать «нет» партнёру</b><span>13 декабря · 9:00</span></div><img src="assets/gen/hero-arms-crossed-v1.png" width="2752" height="1536" alt="" loading="lazy"></article>
+      <article class="po po-c"><span class="po-top">Клуб переговоров · 20 декабря</span><b class="po-score">1 : 1</b><b class="po-h">Конфликт наследников:<br>сохранить семью и бизнес</b><span class="po-pill">Записаться</span></article>
+    </div>
+    <p class="meta" style="margin-top:1rem">Черновики в стиле ваших рефов. Финальные постеры сгенерирую с лицом Олега: имя поверх портрета, слово за головой, метафора в растре.</p>
   </div>
 </section>
 <section class="sec" id="path" style="padding-top:0">
@@ -666,7 +789,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       <h2>Блоки сайта <span class="g">и идея каждого</span></h2>
       <p class="lead">Сначала название блока, затем идея и пример, на который я опираюсь. Детально соберём после вашего «да».</p>
     </div>
-    <div class="steps"><article class="step rv"><div class="fr"><img src="assets/mood/edufest.jpg" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Открытые встречи</span><h3>Афиша клуба вместо списка тренингов</h3><p>Тёплый вход для тех, кто пока не готов к медиации. Дата крупно, тема, сколько мест осталось, запись в один клик. Прошедшие встречи собираются в коллекцию.</p><p class="says">Для бизнеса встреча с Олегом за завтраком честнее любой рекламы.</p></div></article><article class="step rv"><div class="fr"><img src="assets/mood/lattice.png" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Истории клиентов</span><h3>Реальные истории без нарушения тайны</h3><p>Участники кейса таблетками с аватарками: «Учредитель, 51%», «Юрист», «Медиатор». Счёт всегда 1 : 1, потому что выиграли оба. Внизу цифры: встречи, дни, итог.</p><p class="says">Имена скрыты, а ощущение «это было с такими, как я» остаётся.</p></div></article><article class="step rv"><div class="fr"><img src="assets/mood/services-a.webp" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Медиатор для команд</span><h3>Медиатор для команд и больших проектов</h3><p>Отдельный вход для корпоративных заказчиков: конфликты топ-команд, слияния, большие стройки. Кинокадр переговорной и одна фраза на экран.</p><p class="says">Компании покупают спокойствие команды. Показываем это, а не программу тренинга.</p></div></article><article class="step rv"><div class="fr"><img src="assets/ref-cahn.jpg" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Как это проходит</span><h3>Три шага, три хода</h3><p>Разговор с вами наедине, затем со второй стороной, затем общая встреча и соглашение. У каждого шага срок и результат. Отдельной строкой: «Всё, что вы скажете, остаётся в этой комнате».</p><p class="says">Страх неизвестности снимается, когда видно все шаги заранее.</p></div></article><article class="step rv"><div class="fr"><img src="assets/ref-masterclass.jpg" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Курсы</span><h3>Страница курса, понятная за минуту</h3><p>Три записанных курса вместо семи программ. Слева видео с Олегом, справа результат, формат и цена. Ниже уроки и короткая форма покупки.</p><p class="says">Человек выбирает курс по своей задаче, а не по числу дней.</p></div></article></div>
+    <div class="steps"><article class="step rv"><div class="fr"><img src="assets/mood/lattice.png" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Истории клиентов</span><h3>Реальные истории без нарушения тайны</h3><p>Участники кейса таблетками: «Учредитель, 51%», «Юрист», «Медиатор». Счёт всегда 1 : 1, выиграли оба.</p><p class="says">Имена скрыты, а ощущение «это было с такими, как я» остаётся.</p></div></article><article class="step rv"><div class="fr"><video src="assets/mood/sticky-cards.mp4" autoplay muted loop playsinline preload="metadata"></video></div><div class="step-t"><span class="meta">Блок · Как это проходит</span><h3>Три хода стопкой карточек</h3><p>При прокрутке карточки ложатся друг на друга: наедине, со второй стороной, соглашение. У каждой срок и результат.</p><p class="says">Страх неизвестности уходит, когда все шаги видны заранее.</p></div></article><article class="step rv"><div class="fr"><video src="assets/mood/whenevr-proof.mp4" autoplay muted loop playsinline preload="metadata"></video></div><div class="step-t"><span class="meta">Блок · Соцдоказательства</span><h3>Лица, видео и цитаты</h3><p>Дуга из лиц клиентов, короткие видео-нарезки отзывов и одна цитата крупно. Логотипы компаний рядом.</p><p class="says">Доверяют не регалиям, а людям, похожим на себя.</p></div></article><article class="step rv"><div class="fr"><img src="assets/mood/services-a.webp" alt="" loading="lazy"></div><div class="step-t"><span class="meta">Блок · Медиатор для команд</span><h3>Медиатор для команд и больших проектов</h3><p>Отдельный вход для компаний: конфликты топ-команд, слияния, большие стройки. Кинокадр переговорной и одна фраза.</p><p class="says">Компании покупают спокойствие команды, а не программу тренинга.</p></div></article></div>
   </div>
 </section>
 <section class="sec" id="refs" style="padding-top:0">
@@ -706,7 +829,6 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     </div>
   </div>
 </section>
-
 <!-- ============ ЦЕНА ============ -->
 <section class="sec" id="price" style="padding-top:0">
   <div class="wrap">
@@ -732,7 +854,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
   </div>
 </section>
 <section class="wrap" style="padding-bottom:1rem">
-  <div class="final with-ph rv">
+  <div class="final rv">
     <span class="meta" style="color:rgba(255,255,255,.7)">Стороны пришли к соглашению?</span>
     <h2>Мяч на вашей стороне, <span class="g">Олег</span></h2>
     <div class="fsteps">
@@ -740,11 +862,11 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       <div><b>02 · Договор и 50%</b><span>Фиксируем вариант и сроки</span></div>
       <div><b>03 · Старт</b><span>Через неделю живой первый экран</span></div>
     </div>
+    <div class="fsig"><svg viewBox="0 0 240 70" aria-hidden="true"><path id="sig3" d="M8 50c10-22 22-38 30-36 7 2-4 30-12 40-5 6-7 2-3-5 7-13 20-23 26-21 5 2-2 18 3 19 5 1 10-11 15-11 4 0-1 11 3 11 5 0 9-9 14-9s1 10 5 10c6 0 11-14 17-14 5 0 1 11 6 11 5 0 8-7 13-7 4 0 1 7 5 7 6 0 12-10 18-10 4 0 2 6 7 6 7 0 17-5 28-8 14-4 28-5 42-3"/></svg><span>Подпись под соглашением</span></div>
     <div><a class="pair light" href="#top"><span class="l">Ответить в переписке</span><span class="i"><svg><use href="#ar"/></svg></span></a></div>
-    <div class="fph"><img src="assets/gen/profile-light-v1.png" width="896" height="1120" alt="Олег Маврин в профиль, светлый фон" loading="lazy"></div>
   </div>
 </section>
-<footer class="wrap"><span>Подготовила Элианора, 19.11.2026</span><span>Прошлые версии: <a href="index-v1-do.html">1</a>, <a href="index-v2.html">2</a>, <a href="index-v3.html">3</a></span></footer>
+<footer class="wrap"><span>Подготовила Элианора, 19.11.2026</span><span>Прошлые версии: <a href="index-v1-do.html">1</a>, <a href="index-v2.html">2</a>, <a href="index-v3.html">3</a>, <a href="index-v4.html">4</a>, <a href="index-v5.html">5</a></span></footer>
 <script>
 (() => {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -765,8 +887,11 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
   const onScroll = () => { tk = false; if (RM) return; const r = hero.getBoundingClientRect(); hero.style.setProperty('--p', clamp(-r.top / (r.height * .8)).toFixed(3)); };
   addEventListener('scroll', () => { if (!tk) { tk = true; requestAnimationFrame(onScroll); } }, { passive: true });
   onScroll();
+  /* подпись Олега рисуется, когда финал в кадре */
   const sig = $('#sig3');
-  if (sig && !RM) { const L = Math.ceil(sig.getTotalLength()); sig.style.strokeDasharray = L; sig.style.strokeDashoffset = L; sig.getBoundingClientRect(); sig.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(.22,1,.36,1) .9s'; requestAnimationFrame(() => { sig.style.strokeDashoffset = 0; }); }
+  if (sig && !RM && 'IntersectionObserver' in window) { const L = Math.ceil(sig.getTotalLength()); sig.style.strokeDasharray = L; sig.style.strokeDashoffset = L;
+    const io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { sig.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(.22,1,.36,1) .3s'; sig.style.strokeDashoffset = 0; io2.disconnect(); } }), { threshold: .6 });
+    io2.observe(sig); }
 
   /* --- квиз «Разбор за 4 клика» + панель «Цена конфликта» --- */
   (() => {
@@ -822,7 +947,7 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
       const plus = A.stage === 'court' ? `<p class="qz-plus">Суд уже идёт: при мировом соглашении в первой инстанции вернётся 70% пошлины — ${money(d * .7)}.</p>` : '';
       const st = $('#qzStop');
       st.innerHTML = `<h4>Стоп-лист: чего не делать прямо сейчас</h4><ul>${STOP[A.who].map(x => `<li>${x}</li>`).join('')}</ul>${plus}
-        <div class="qz-cta"><a class="pair ind" href="#price"><span class="l">Получить голосовое от Олега</span><span class="i"><svg><use href="#ar"/></svg></span></a><small>Анонимно, в Telegram. Олег разберёт ваш результат и скажет, с чего начать.</small></div>`;
+        <div class="msg him voice"><span class="play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg></span><span class="wave"><i style="--h:0.35;--d:0"></i><i style="--h:0.6;--d:100"></i><i style="--h:0.9;--d:200"></i><i style="--h:0.5;--d:300"></i><i style="--h:0.75;--d:400"></i><i style="--h:1;--d:500"></i><i style="--h:0.55;--d:600"></i><i style="--h:0.8;--d:700"></i><i style="--h:0.4;--d:800"></i><i style="--h:0.7;--d:900"></i><i style="--h:0.95;--d:1000"></i><i style="--h:0.6;--d:1100"></i><i style="--h:0.45;--d:1200"></i><i style="--h:0.85;--d:1300"></i><i style="--h:0.65;--d:1400"></i><i style="--h:0.3;--d:1500"></i><i style="--h:0.75;--d:1600"></i><i style="--h:0.9;--d:1700"></i><i style="--h:0.5;--d:1800"></i><i style="--h:0.6;--d:1900"></i><i style="--h:0.35;--d:2000"></i><i style="--h:0.8;--d:2100"></i><i style="--h:0.55;--d:2200"></i><i style="--h:0.7;--d:2300"></i></span><span>0:52</span></div><div class="qz-cta"><a class="pair ind" href="#price"><span class="l">Получить голосовое от Олега</span><span class="i"><svg><use href="#ar"/></svg></span></a><small>Анонимно, в Telegram. Олег разберёт ваш результат и скажет, с чего начать.</small></div>`;
       st.hidden = false; st.classList.remove('qz-fade'); void st.offsetWidth; st.classList.add('qz-fade');
     };
     const render = () => {
@@ -868,6 +993,27 @@ footer a { text-decoration: underline; text-underline-offset: 3px; }
     $$('.mir-it').forEach(x => { x.classList.remove('open'); x.firstElementChild.setAttribute('aria-expanded', 'false'); });
     if (!was) { it.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
   }));
+  /* идея 03: сторис курсов */
+  (() => {
+    const box = $('#sto'); if (!box) return;
+    const bars = $$('.sto-bars i', box), sets = $$('.sto-set', box), chips = $$('.sto-chip'), DUR = 4500;
+    const COL = sets.map(x => x.style.getPropertyValue('--c')), TIT = sets.map(x => x.querySelector('.sto-h').textContent);
+    let c = 0, k = 0, tm;
+    const show = () => {
+      sets.forEach((x, i) => { x.hidden = i !== c; });
+      $$('.sto-sl', sets[c]).forEach((x, i) => x.classList.toggle('on', i === k));
+      bars.forEach((b, i) => { b.classList.remove('run'); b.classList.toggle('done', i < k); void b.offsetWidth; if (i === k && !RM) b.classList.add('run'); });
+      chips.forEach((x, i) => x.setAttribute('aria-pressed', i === c));
+      const cp = $('#cp'); cp.style.setProperty('--c', COL[c]); $('#cpN').textContent = '0' + (c + 1); $('#cpT').textContent = TIT[c];
+      clearTimeout(tm); if (!RM) tm = setTimeout(next, DUR);
+    };
+    const next = () => { if (k < 2) k++; else { k = 0; c = (c + 1) % sets.length; } show(); };
+    const prev = () => { if (k > 0) k--; else { c = (c + sets.length - 1) % sets.length; k = 0; } show(); };
+    $('.sto-tap.r', box).addEventListener('click', next); $('.sto-tap.l', box).addEventListener('click', prev);
+    chips.forEach((x, i) => x.addEventListener('click', () => { c = i; k = 0; show(); }));
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(); io.disconnect(); } }), { threshold: .3 });
+    io.observe(box);
+  })();
   /* видео играют сами */
   $$('video').forEach(v => { v.muted = true; v.playsInline = true; const pl = () => v.play().catch(() => {}); pl(); v.addEventListener('loadeddata', pl); });
 
