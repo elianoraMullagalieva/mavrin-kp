@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КП Маврин — 4 идеи в движении</title>
+<style>
+/* Минималистичные анимации четырёх персональных идей. Только opacity и transform — легко даже на старом телефоне */
+@font-face { font-family: "Medeo Sans"; src: url("https://elianoramullagalieva.github.io/mavrin-kp/assets/fonts/MedeoSans.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+:root { --ink: #080808; --grey: #6c6c6c; --stone: #f2f2f0; --mist: #e5e5ea; --g: #1b1b1b; --ease: cubic-bezier(.22, 1, .36, 1); }
+* { box-sizing: border-box; }
+body { margin: 0; background: #fff; color: var(--ink); font-family: "Medeo Sans", "Helvetica Neue", Arial, sans-serif; letter-spacing: -.01em; padding: clamp(1rem, 3vw, 2rem); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); gap: clamp(.75rem, 1.5vw, 1.25rem); }
+.t { position: relative; border-radius: 22px; background: var(--stone); aspect-ratio: 4 / 5; overflow: hidden; padding: 1.25rem; display: grid; grid-template-rows: auto 1fr auto; }
+.t.dark { background: var(--ink); color: #fff; }
+.n { font-size: 1rem; color: var(--grey); }
+.dark .n { color: rgba(255,255,255,.65); }
+.h { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.6rem); font-weight: 500; letter-spacing: -.025em; line-height: 1.1; margin: .35rem 0 0; }
+.f { font-size: 1rem; color: var(--grey); line-height: 1.35; }
+.dark .f { color: rgba(255,255,255,.7); }
+.v { position: relative; align-self: center; }
+
+/* 01 квиз: сегменты прогресса, шкалы суд/медиация, стоп-лист */
+.seg { display: flex; gap: 5px; margin-bottom: 1rem; }
+.seg i { flex: 1; height: 3px; border-radius: 3px; background: var(--g); overflow: hidden; }
+.seg i::after { content: ""; display: block; height: 100%; background: #fff; transform-origin: 0 50%; transform: scaleX(0); animation: fill 8s var(--ease) infinite; animation-delay: calc(var(--k) * .7s); }
+@keyframes fill { 0%, 4% { transform: scaleX(0); } 12%, 82% { transform: scaleX(1); } 92%, 100% { transform: scaleX(0); } }
+.bar { display: grid; grid-template-columns: 4.5rem 1fr; gap: .6rem; align-items: center; margin: .5rem 0; font-size: 1rem; color: rgba(255,255,255,.7); }
+.bar b { display: block; height: 6px; border-radius: 3px; background: #4a4a4a; transform-origin: 0 50%; animation: grow 8s var(--ease) infinite; }
+.bar.m b { background: #fff; width: 22%; }
+@keyframes grow { 0%, 30% { transform: scaleX(0); } 42%, 82% { transform: scaleX(1); } 92%, 100% { transform: scaleX(0); } }
+.stop { margin-top: .9rem; display: grid; gap: .4rem; }
+.stop span { display: flex; gap: .5rem; align-items: center; font-size: 1rem; opacity: 0; transform: translateX(-10px); animation: stop 8s var(--ease) infinite; animation-delay: calc(var(--k) * .25s); }
+.stop span::before { content: "✕"; width: 1.25rem; height: 1.25rem; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; font-size: .7rem; flex: none; }
+@keyframes stop { 0%, 50% { opacity: 0; transform: translateX(-10px); } 58%, 84% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; } }
+
+/* 02 зеркало: строки, одна раскрывается */
+.row { border-top: 1px solid var(--mist); padding: .7rem 0; font-size: 1.05rem; display: flex; justify-content: space-between; gap: .5rem; }
+.row:last-child { border-bottom: 1px solid var(--mist); }
+.row i { font-style: normal; width: 1.5rem; height: 1.5rem; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--mist); display: grid; place-items: center; font-size: .9rem; flex: none; }
+.row.o i { animation: rot 6s var(--ease) infinite; background: var(--ink); color: #fff; box-shadow: none; }
+@keyframes rot { 0%, 10% { transform: rotate(0); } 20%, 80% { transform: rotate(45deg); } 90%, 100% { transform: rotate(0); } }
+.det { overflow: hidden; color: var(--grey); font-size: 1rem; max-height: 0; animation: open 6s var(--ease) infinite; }
+@keyframes open { 0%, 12% { max-height: 0; opacity: 0; } 24%, 78% { max-height: 4.5rem; opacity: 1; } 90%, 100% { max-height: 0; opacity: 0; } }
+
+/* 03 сторис: прогресс и смена слайдов */
+.phone { position: relative; width: 62%; margin: 0 auto; aspect-ratio: 9 / 15; border-radius: 16px; overflow: hidden; background: #1f2a44; color: #fff; }
+.pb { position: absolute; z-index: 3; left: 8px; right: 8px; top: 8px; display: flex; gap: 3px; }
+.pb i { flex: 1; height: 2px; background: rgba(255,255,255,.3); border-radius: 2px; overflow: hidden; }
+.pb i::after { content: ""; display: block; height: 100%; background: #fff; transform-origin: 0 50%; transform: scaleX(0); animation: pb 9s linear infinite; animation-delay: calc(var(--k) * 3s); }
+@keyframes pb { 0% { transform: scaleX(0); } 33.3% { transform: scaleX(1); } 33.4%, 100% { transform: scaleX(0); } }
+.sl { position: absolute; inset: 0; padding: 1.6rem .9rem .9rem; display: grid; align-content: end; gap: .3rem; opacity: 0; animation: sl 9s var(--ease) infinite; animation-delay: calc(var(--k) * 3s); }
+.sl img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; z-index: -1; }
+.sl b { font-size: 1.15rem; font-weight: 500; line-height: 1.05; letter-spacing: -.02em; }
+.sl small { font-size: .95rem; color: rgba(255,255,255,.8); }
+@keyframes sl { 0% { opacity: 0; transform: scale(1.04); } 4%, 30% { opacity: 1; transform: none; } 34%, 100% { opacity: 0; } }
+
+/* 04 афиша: постер со словом за головой, мягкое покачивание */
+.po { position: relative; width: 70%; margin: 0 auto; aspect-ratio: 4 / 5; border-radius: 14px; overflow: hidden; animation: float 6s ease-in-out infinite; container-type: inline-size; }
+.po img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.14); transform-origin: 50% 45%; }
+.po .w { position: absolute; z-index: 1; top: 21cqw; left: 0; right: 0; text-align: center; font-size: 30cqw; font-weight: 500; letter-spacing: -.05em; line-height: 1; color: #fff; animation: word 6s var(--ease) infinite; }
+.po .cut { z-index: 2; }
+.po .pill { position: absolute; z-index: 3; left: 6cqw; bottom: 6cqw; padding: .3rem .7rem; border-radius: 999px; background: #fff; color: var(--ink); font-size: .95rem; animation: pulse 2s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-6px) rotate(1.2deg); } }
+@keyframes word { 0%, 8% { opacity: 0; transform: translateY(12px); } 22%, 86% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: 20s !important; } }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="t dark">
+    <div><span class="n">Идея 01</span><p class="h">Разбор за 4 клика, можно анонимно</p></div>
+    <div class="v">
+      <div class="seg"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i></div>
+      <div class="bar"><span>Суд</span><b></b></div>
+      <div class="bar m"><span>Медиация</span><b></b></div>
+      <div class="stop"><span style="--k:0">Не выводите активы</span><span style="--k:1">Не пишите на эмоциях</span><span style="--k:2">Не подавайте иск</span></div>
+    </div>
+    <span class="f">Цена конфликта, стоп-лист и контакт через ценность</span>
+  </div>
+  <div class="t">
+    <div><span class="n">Идея 02</span><p class="h">Зеркало «Узнаёте себя?»</p></div>
+    <div class="v">
+      <div class="row o"><span>Партнёр вывел деньги</span><i>+</i></div>
+      <div class="det">3–4 встречи · без суда · похожая история</div>
+      <div class="row"><span>Наследники делят дело</span><i>+</i></div>
+      <div class="row"><span>Подрядчик сорвал сроки</span><i>+</i></div>
+    </div>
+    <span class="f">Человек ищет не услугу, а свою ситуацию</span>
+  </div>
+  <div class="t">
+    <div><span class="n">Идея 03</span><p class="h">Три флагманских курса как сторис</p></div>
+    <div class="v"><div class="phone">
+      <div class="pb"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i></div>
+      <div class="sl" style="--k:0"><img src="https://elianoramullagalieva.github.io/mavrin-kp/assets/gen/web/course-indigo.webp" alt=""><b>Трудные переговоры</b><small>6 уроков</small></div>
+      <div class="sl" style="--k:1"><img src="https://elianoramullagalieva.github.io/mavrin-kp/assets/gen/web/course-terracotta.webp" alt=""><b>Переговоры о деньгах</b><small>5 уроков</small></div>
+      <div class="sl" style="--k:2"><img src="https://elianoramullagalieva.github.io/mavrin-kp/assets/gen/web/course-olive.webp" alt=""><b>Конфликт в команде</b><small>Личное ведение</small></div>
+    </div></div>
+    <span class="f">Сначала три, потом магазин по их образцу</span>
+  </div>
+  <div class="t">
+    <div><span class="n">Идея 04</span><p class="h">Афиши открытых встреч</p></div>
+    <div class="v"><div class="po">
+      <img src="https://elianoramullagalieva.github.io/mavrin-kp/assets/gen/web/poster-stool-navy.webp" alt="">
+      <span class="w">Пауза</span>
+      <img class="cut" src="https://elianoramullagalieva.github.io/mavrin-kp/assets/gen/web/poster-stool-cut.webp" alt="">
+      <span class="pill">13 декабря</span>
+    </div></div>
+    <span class="f">Постеры с лицом эксперта вместо списка</span>
+  </div>
+</div>
+</body>
+</html>
