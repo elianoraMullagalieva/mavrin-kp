@@ -11,7 +11,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: #fff; color: var(--ink); font-family: "Medeo Sans", "Helvetica Neue", Arial, sans-serif; letter-spacing: -.01em; padding: clamp(1rem, 3vw, 2rem); }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); gap: clamp(.75rem, 1.5vw, 1.25rem); }
-.t { position: relative; border-radius: 22px; background: var(--stone); aspect-ratio: 4 / 5; overflow: hidden; padding: 1.25rem; display: grid; grid-template-rows: auto 1fr auto; }
+.t { position: relative; border-radius: 22px; background: var(--stone); min-height: 26rem; overflow: hidden; padding: 1.25rem; display: grid; grid-template-rows: auto 1fr auto; gap: 1rem; }
 .t.dark { background: var(--ink); color: #fff; }
 .n { font-size: 1rem; color: var(--grey); }
 .dark .n { color: rgba(255,255,255,.65); }
